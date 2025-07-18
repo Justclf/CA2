@@ -1,0 +1,60 @@
+/* Color Variables - Solo Leveling Purple Theme */
+:root {
+    /* Primary Colors - Purple Theme */
+    --primary-purple: #9d4edd;
+    --primary-purple-dark: #7209b7;
+    --primary-purple-light: #c77dff;
+    
+    /* Secondary Colors */
+    --secondary-pink: #ff006e;
+    --secondary-pink-dark: #d90429;
+    --secondary-pink-light: #ff5d8f;
+    
+    /* Background Colors */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a0d2e;
+    --bg-tertiary: #2d1b3d;
+    --bg-glass: rgba(0, 0, 0, 0.9);
+    
+    /* Text Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #e0b3ff;
+    --text-tertiary: #c9a3ff;
+    --text-muted: #a888cc;
+    
+    /* Effect Colors */
+    --glow-purple: rgba(157, 78, 221, 0.5);
+    --glow-pink: rgba(255, 0, 110, 0.5);
+    --glow-white: rgba(255, 255, 255, 0.3);
+    
+    /* Aura Colors */
+    --aura-purple: rgba(157, 78, 221, 0.15);
+    --aura-purple-intense: rgba(157, 78, 221, 0.4);
+    
+    /* Character Colors */
+    --character-bg: #2d1b3d;
+    --character-shadow: #1a0d2e;
+    --character-border: #9d4edd;
+    
+    /* Particle Colors */
+    --particle-color: #9d4edd;
+    
+    /* Gradient Backgrounds, This is where you set the colour */
+    --gradient-primary: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+    --gradient-button-purple: linear-gradient(45deg, var(--primary-purple), var(--primary-purple-dark));
+    --gradient-button-pink: linear-gradient(45deg, var(--secondary-pink), var(--secondary-pink-dark));
+    --gradient-text-shine: linear-gradient(45deg, var(--primary-purple), var(--text-primary), var(--primary-purple));
+    --gradient-character: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    --gradient-character-figure: linear-gradient(180deg, var(--character-bg) 0%, var(--character-shadow) 100%);
+    
+    /* Box Shadow Colors */
+    --shadow-purple: 0 0 20px var(--glow-purple);
+    --shadow-pink: 0 0 20px var(--glow-pink);
+    --shadow-intense-purple: 0 0 50px var(--glow-purple);
+    --shadow-button-hover-purple: 0 5px 15px var(--glow-purple);
+    --shadow-button-hover-pink: 0 10px 25px var(--glow-pink);
+    
+    /* Border Colors */
+    --border-purple: 2px solid var(--primary-purple);
+    --border-character: 3px solid var(--primary-purple);
+}
