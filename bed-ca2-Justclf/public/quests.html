@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quests - Bug Hunter Guild</title>
+    <link rel="stylesheet" href="css/color.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="quest-page">
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">Bug Hunter Guild</div>
+        <nav class="nav-buttons">
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="quests.html" class="nav-btn active">Quests</a>
+            <a href="players.html" class="nav-btn">PVP</a>
+            <a href="review.html" class="nav-btn">Review</a>
+            <a href="login.html" class="nav-btn">Login</a>
+            <a href="register.html" class="nav-btn">Registration</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- User Stats Section -->
+        <div class="user-stats">
+            <div class="hunter-info">
+                <div class="hunter-name">Hunter: <span id="currentHunter"></span></div>
+                <div class="hunter-xp">XP: <span id="currentXP"></span></div>
+                <div class="hunter-rank">Rank: <span id="currentRank"></span></div>
+            </div>
+        </div>
+
+        <!-- Create Quest Section -->
+        <div class="create-quest-container">
+            <h2 class="section-title">Create New Quest</h2>
+            <p class="section-subtitle">Share your knowledge and help fellow hunters level up</p>
+
+            <form id="createQuestForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="questTitle">Quest Title:</label>
+                        <input type="text" id="questTitle" name="questTitle" placeholder="Enter quest title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="questXP">XP Reward:</label>
+                        <input type="number" id="questXP" name="questXP" placeholder="XP amount" min="1" max="100" required>
+                        <small class="xp-note">XP will be deducted from your current XP</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="questDescription">Quest Description:</label>
+                    <textarea id="questDescription" name="questDescription" placeholder="Describe the quest objective and requirements..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="questDifficulty">Difficulty Level:</label>
+                    <select id="questDifficulty" name="questDifficulty" required>
+                        <option value="">Select difficulty</option>
+                        <option value="Beginner">Beginner (E-Rank)</option>
+                        <option value="Intermediate">Intermediate (D-Rank)</option>
+                        <option value="Advanced">Advanced (C-Rank)</option>
+                        <option value="Expert">Expert (B-Rank)</option>
+                        <option value="Master">Master (A-Rank)</option>
+                        <option value="Legendary">Legendary (S-Rank)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="create-btn">Create Quest</button>
+            </form>
+        </div>
+
+        <!-- Available Quests Section -->
+        <div class="quests-section">
+            <h2 class="section-title">Available Quests</h2>
+            <div class="quest-filters">
+                <select id="difficultyFilter">
+                    <option value="">All Difficulties</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Expert">Expert</option>
+                    <option value="Master">Master</option>
+                    <option value="Legendary">Legendary</option>
+                </select>
+                <!-- <select id="xpFilter">
+                    <option value="">All XP Ranges</option>
+                    <option value="1-10">1-10 XP</option>
+                    <option value="11-25">11-25 XP</option>
+                    <option value="26-50">26-50 XP</option>
+                    <option value="51-100">51-100 XP</option>
+                </select> -->
+            </div>
+
+            <!-- <div id="questsList" class="quests-list">
+                <div class="no-quests">
+                    <p>No quests available. Be the first hunter to create a quest!</p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <!-- Floating Particles -->
+    <script src="js/particles.js"></script>
+    <script src="js/interactions.js"></script>
+    <script src="js/questUser.js"></script>
+</body>
+</html>

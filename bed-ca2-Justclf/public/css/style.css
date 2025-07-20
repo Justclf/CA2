@@ -1,3 +1,4 @@
+/* index.html */
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -323,7 +324,1095 @@ body {
 }
 
 
-
-
-
 /* register */
+/* Register Page Specific Styles - Add to style.css */
+
+/* Only apply to register page */
+body.register-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0;
+}
+
+/* Register page container */
+.register-page .container {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+    margin-top: 100px; /* Account for fixed header */
+}
+
+/* Register Form Container */
+.register-page .register-container {
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: var(--border-purple);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow-intense-purple);
+    text-align: center;
+}
+
+/* Register Title */
+.register-page .register-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    background: var(--gradient-text-shine);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleShine 3s ease-in-out infinite;
+    letter-spacing: 0.05em;
+}
+
+/* Form Groups */
+.register-page .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.register-page .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--primary-purple);
+    font-size: 16px;
+}
+
+.register-page .form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--primary-purple);
+    border-radius: 8px;
+    background: var(--character-bg);
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.register-page .form-group input::placeholder {
+    color: var(--text-muted);
+}
+
+.register-page .form-group input:focus {
+    outline: none;
+    border-color: var(--primary-purple);
+    box-shadow: var(--shadow-purple);
+    background: var(--bg-tertiary);
+}
+
+/* Signup Button */
+.register-page .signup-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--gradient-button-pink);
+    border: none;
+    border-radius: 30px;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.register-page .signup-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--glow-white), transparent);
+    transition: left 0.5s;
+}
+
+.register-page .signup-btn:hover::before {
+    left: 100%;
+}
+
+.register-page .signup-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-button-hover-pink);
+}
+
+.register-page .signup-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.register-page .login-link {
+    margin-top: 20px;
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+.register-page .login-link a {
+    color: var(--primary-purple);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.register-page .login-link a:hover {
+    color: var(--secondary-pink);
+    text-shadow: 0 0 5px var(--glow-pink);
+}
+
+/* Responsive Design for Register Page */
+@media (max-width: 768px) {
+    .register-page .register-title {
+        font-size: 2.5rem;
+    }
+    
+    .register-page .register-container {
+        padding: 30px 20px;
+        margin: 0 10px;
+    }
+    
+    .register-page .container {
+        margin-top: 120px;
+    }
+}
+
+
+/* Login */
+/* Login Page Specific Styles - Add to style.css */
+
+/* Login Page Specific Styles - Add to style.css */
+
+/* Only apply to login page */
+body.login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0;
+}
+
+/* Login page container */
+.login-page .container {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+    margin-top: 100px; /* Account for fixed header */
+}
+
+/* Login Form Container */
+.login-page .login-container {
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: var(--border-purple);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow-intense-purple);
+    text-align: center;
+}
+
+/* Login Title */
+.login-page .login-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    background: var(--gradient-text-shine);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleShine 3s ease-in-out infinite;
+    letter-spacing: 0.05em;
+}
+
+/* Form Groups */
+.login-page .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.login-page .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--primary-purple);
+    font-size: 16px;
+}
+
+.login-page .form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--primary-purple);
+    border-radius: 8px;
+    background: var(--character-bg);
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.login-page .form-group input::placeholder {
+    color: var(--text-muted);
+}
+
+.login-page .form-group input:focus {
+    outline: none;
+    border-color: var(--primary-purple);
+    box-shadow: var(--shadow-purple);
+    background: var(--bg-tertiary);
+}
+
+/* Login Button */
+.login-page .login-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--gradient-button-pink);
+    border: none;
+    border-radius: 30px;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-page .login-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--glow-white), transparent);
+    transition: left 0.5s;
+}
+
+.login-page .login-btn:hover::before {
+    left: 100%;
+}
+
+.login-page .login-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-button-hover-pink);
+}
+
+.login-page .login-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Register Link */
+.login-page .register-link {
+    margin-top: 20px;
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+.login-page .register-link a {
+    color: var(--primary-purple);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.login-page .register-link a:hover {
+    color: var(--secondary-pink);
+    text-shadow: 0 0 5px var(--glow-pink);
+}
+
+/* Responsive Design for Login Page */
+@media (max-width: 768px) {
+    .login-page .login-title {
+        font-size: 2.5rem;
+    }
+    
+    .login-page .login-container {
+        padding: 30px 20px;
+        margin: 0 10px;
+    }
+    
+    .login-page .container {
+        margin-top: 120px;
+    }
+}
+
+
+
+
+/* Review */
+/* Review Page Specific Styles - Add to style.css */
+
+/* Only apply to review page */
+body.review-page {
+    overflow-y: auto; /* Allow scrolling for reviews */
+    height: auto;
+    min-height: 100vh;
+}
+
+/* Review page container */
+.review-page .container {
+    max-width: 800px;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Review Form Container */
+.review-page .review-form-container {
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: var(--border-purple);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow-intense-purple);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Review Title */
+.review-page .review-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    background: var(--gradient-text-shine);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleShine 3s ease-in-out infinite;
+    letter-spacing: 0.05em;
+}
+
+.review-page .review-subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+/* Form Groups */
+.review-page .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.review-page .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--primary-purple);
+    font-size: 16px;
+}
+
+.review-page .form-group input,
+.review-page .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--primary-purple);
+    border-radius: 8px;
+    background: var(--character-bg);
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.review-page .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.review-page .form-group input::placeholder,
+.review-page .form-group textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.review-page .form-group input:focus,
+.review-page .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-purple);
+    box-shadow: var(--shadow-purple);
+    background: var(--bg-tertiary);
+}
+
+/* Star Rating */
+.review-page .star-rating {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.review-page .star {
+    font-size: 2rem;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.review-page .star:hover,
+.review-page .star.active {
+    color: var(--secondary-pink);
+    text-shadow: 0 0 10px var(--glow-pink);
+    transform: scale(1.1);
+}
+
+.review-page .rating-text {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* Submit Button */
+.review-page .submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--gradient-button-pink);
+    border: none;
+    border-radius: 30px;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.review-page .submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--glow-white), transparent);
+    transition: left 0.5s;
+}
+
+.review-page .submit-btn:hover::before {
+    left: 100%;
+}
+
+.review-page .submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-button-hover-pink);
+}
+
+/* Reviews Section */
+.review-page .reviews-section {
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: var(--border-purple);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow-intense-purple);
+}
+
+.review-page .section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--primary-purple);
+}
+
+/* Reviews Stats */
+.review-page .reviews-stats {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--character-bg);
+    border-radius: 15px;
+    border: 1px solid var(--primary-purple);
+}
+
+.review-page .average-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.review-page .avg-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--secondary-pink);
+}
+
+.review-page .avg-stars {
+    display: flex;
+    gap: 5px;
+}
+
+.review-page .avg-stars .star {
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.review-page .avg-stars .star.filled {
+    color: var(--secondary-pink);
+    text-shadow: 0 0 5px var(--glow-pink);
+}
+
+.review-page .total-reviews {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* Reviews List */
+.review-page .reviews-list {
+    margin-top: 20px;
+}
+
+.review-page .no-reviews {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    padding: 40px 20px;
+}
+
+/* Individual Review */
+.review-page .review-item {
+    background: var(--character-bg);
+    border: 1px solid var(--primary-purple);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.review-page .review-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(157, 78, 221, 0.3);
+}
+
+.review-page .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.review-page .reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.review-page .reviewer-name {
+    font-weight: bold;
+    color: var(--primary-purple);
+    font-size: 1.1rem;
+}
+
+.review-page .review-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.review-page .review-stars .star {
+    font-size: 1rem;
+    color: var(--secondary-pink);
+    text-shadow: 0 0 3px var(--glow-pink);
+}
+
+.review-page .review-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.review-page .edit-btn,
+.review-page .delete-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.review-page .edit-btn {
+    background: var(--gradient-button-purple);
+    color: var(--text-primary);
+}
+
+.review-page .delete-btn {
+    background: linear-gradient(45deg, #dc3545, #c82333);
+    color: var(--text-primary);
+}
+
+.review-page .edit-btn:hover,
+.review-page .delete-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.review-page .review-text {
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.review-page .review-date {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Current User Review Highlight */
+.review-page .review-item.current-user {
+    border-color: var(--secondary-pink);
+    box-shadow: 0 0 15px rgba(255, 0, 110, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .review-page .review-title {
+        font-size: 2rem;
+    }
+    
+    .review-page .review-form-container,
+    .review-page .reviews-section {
+        padding: 20px;
+        margin: 0 10px 20px 10px;
+    }
+    
+    .review-page .container {
+        margin-top: 120px;
+        padding: 10px;
+    }
+    
+    .review-page .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .review-page .review-actions {
+        align-self: flex-end;
+    }
+    
+    .review-page .star-rating {
+        justify-content: center;
+    }
+}
+
+
+/* Quest html */
+/* Quest Page Specific Styles - Add to style.css */
+
+/* Only apply to quest page */
+body.quest-page {
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+}
+
+/* Quest page container */
+.quest-page .container {
+    max-width: 1000px;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* User Stats Section */
+.quest-page .user-stats {
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: var(--border-purple);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.quest-page .hunter-info {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.quest-page .hunter-name,
+.quest-page .hunter-xp,
+.quest-page .hunter-rank {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.quest-page .hunter-name span,
+.quest-page .hunter-xp span,
+.quest-page .hunter-rank span {
+    color: var(--primary-purple);
+    font-weight: bold;
+}
+
+/* Create Quest Container */
+.quest-page .create-quest-container {
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: var(--border-purple);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow-intense-purple);
+    margin-bottom: 30px;
+}
+
+.quest-page .section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    background: var(--gradient-text-shine);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleShine 3s ease-in-out infinite;
+}
+
+.quest-page .section-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+/* Form Styles */
+.quest-page .form-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.quest-page .form-group {
+    margin-bottom: 20px;
+}
+
+.quest-page .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--primary-purple);
+    font-size: 16px;
+}
+
+.quest-page .form-group input,
+.quest-page .form-group textarea,
+.quest-page .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--primary-purple);
+    border-radius: 8px;
+    background: var(--character-bg);
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.quest-page .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.quest-page .form-group input::placeholder,
+.quest-page .form-group textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.quest-page .form-group input:focus,
+.quest-page .form-group textarea:focus,
+.quest-page .form-group select:focus {
+    outline: none;
+    border-color: var(--primary-purple);
+    box-shadow: var(--shadow-purple);
+    background: var(--bg-tertiary);
+}
+
+.quest-page .form-group select option {
+    background: var(--character-bg);
+    color: var(--text-primary);
+}
+
+.quest-page .xp-note {
+    display: block;
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* Create Button */
+.quest-page .create-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--gradient-button-pink);
+    border: none;
+    border-radius: 30px;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.quest-page .create-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--glow-white), transparent);
+    transition: left 0.5s;
+}
+
+.quest-page .create-btn:hover::before {
+    left: 100%;
+}
+
+.quest-page .create-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-button-hover-pink);
+}
+
+/* Quests Section */
+.quest-page .quests-section {
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: var(--border-purple);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow-intense-purple);
+}
+
+/* Quest Filters */
+.quest-page .quest-filters {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.quest-page .quest-filters select {
+    padding: 10px 15px;
+    border: 2px solid var(--primary-purple);
+    border-radius: 20px;
+    background: var(--character-bg);
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quest-page .quest-filters select:focus {
+    outline: none;
+    box-shadow: var(--shadow-purple);
+}
+
+/* Quests List */
+.quest-page .quests-list {
+    margin-top: 20px;
+}
+
+.quest-page .no-quests {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    padding: 40px 20px;
+}
+
+/* Individual Quest Card */
+.quest-page .quest-card {
+    background: var(--character-bg);
+    border: 2px solid var(--primary-purple);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.quest-page .quest-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(157, 78, 221, 0.4);
+    border-color: var(--secondary-pink);
+}
+
+.quest-page .quest-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.quest-page .quest-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--primary-purple);
+    margin-bottom: 5px;
+}
+
+.quest-page .quest-creator {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.quest-page .quest-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.quest-page .quest-xp {
+    background: var(--gradient-button-pink);
+    color: var(--text-primary);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.quest-page .quest-difficulty {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+/* Difficulty Colors */
+.quest-page .difficulty-beginner { background: #28a745; color: white; }
+.quest-page .difficulty-intermediate { background: #17a2b8; color: white; }
+.quest-page .difficulty-advanced { background: #ffc107; color: black; }
+.quest-page .difficulty-expert { background: #fd7e14; color: white; }
+.quest-page .difficulty-master { background: #dc3545; color: white; }
+.quest-page .difficulty-legendary { background: var(--gradient-button-purple); color: white; }
+
+.quest-page .quest-description {
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.quest-page .quest-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.quest-page .accept-btn,
+.quest-page .delete-quest-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.quest-page .accept-btn {
+    background: var(--gradient-button-purple);
+    color: var(--text-primary);
+}
+
+.quest-page .delete-quest-btn {
+    background: linear-gradient(45deg, #dc3545, #c82333);
+    color: var(--text-primary);
+}
+
+.quest-page .accept-btn:hover,
+.quest-page .delete-quest-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* User's Own Quest Highlight */
+.quest-page .quest-card.own-quest {
+    border-color: var(--secondary-pink);
+    box-shadow: 0 0 15px rgba(255, 0, 110, 0.2);
+}
+
+.quest-page .own-quest .quest-title {
+    color: var(--secondary-pink);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .quest-page .container {
+        padding: 10px;
+        margin-top: 120px;
+    }
+    
+    .quest-page .create-quest-container,
+    .quest-page .quests-section {
+        padding: 20px;
+    }
+    
+    .quest-page .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .quest-page .hunter-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .quest-page .quest-filters {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .quest-page .quest-filters select {
+        width: 200px;
+    }
+    
+    .quest-page .quest-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .quest-page .quest-info {
+        justify-content: flex-start;
+    }
+    
+    .quest-page .quest-actions {
+        justify-content: flex-start;
+    }
+}

@@ -7,18 +7,22 @@
     <link rel="stylesheet" href="css/color.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="register-page">
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    
     <!-- Header -->
-    <div class="header">
+    <header class="header">
         <div class="logo">Bug Hunter Guild</div>
-        <div class="nav-buttons">
+        <nav class="nav-buttons">
             <a href="index.html" class="nav-btn">Home</a>
             <a href="quests.html" class="nav-btn">Quests</a>
             <a href="pvp.html" class="nav-btn">PVP</a>
             <a href="review.html" class="nav-btn">Review</a>
             <a href="login.html" class="nav-btn">Login</a>
-        </div>
-    </div>
+            <a href="register.html" class="nav-btn">Registration</a>
+        </nav>
+    </header>
 
     <div class="container">
         <div class="register-container">
@@ -44,12 +48,18 @@
                     <label for="confirmPassword">Confirm Password</label>
                     <input type="password" id="confirmPassword" name="confirmPassword" required>
                 </div>
-
                 <button type="submit" class="signup-btn">Signup</button>
             </form>
+
+            <div class="login-link">
+                Already have an account? <a href="login.html">Login here</a>
+            </div>
         </div>
     </div>
 
+    <!-- Floating Particles -->
+    <script src="js/particles.js"></script>
+    <script src="js/interactions.js"></script>
     <script src="js/registerUser.js"></script>
 </body>
 </html>

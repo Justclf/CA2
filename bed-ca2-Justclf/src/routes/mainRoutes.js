@@ -1,21 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-
-const userRoutes = require("./userRoutes");
-const reportRoutes = require("./reportRoutes");
-const vulnerabilityRoutes = require("./vulnerabilityRoutes");
-
+const jwtMiddleware = require('../middlewares/jwtMiddleware');
+const bcryptMiddleware = require('../middlewares/bcryptMiddleware');
+const userController = require('../controllers/userController')
 
 
-router.use("/users", userRoutes);
-router.use("/vulnerabilities", vulnerabilityRoutes);
-router.use("/reports", reportRoutes);
-
-const GameUsersRoutes = require("./GameUsersRoutes")
-const QuestsRoutes = require("./QuestsRoutes")
-router.use("/gameusers", GameUsersRoutes)
-router.use("/quests", QuestsRoutes)
+router.post("/login", userController.login, bcryptMiddleware.comparePassword, jwtMiddleware.generateToken, jwtMiddleware.sendToken);
+router.post("/register", userController.checkUsernameOrEmailExist, bcryptMiddleware.hashPassword, userController.register, jwtMiddleware.generateToken, jwtMiddleware.sendToken);
 
 
+router.post("/jwt/generate", jwtMiddleware.generateToken, jwtMiddleware.sendToken);
+router.get("/jwt/verify", jwtMiddleware.verifyToken);
+router.post("/bcrypt/compare", bcryptMiddleware.comparePassword);
+router.post("/bcrypt/hash", bcryptMiddleware.hashPassword);
 module.exports = router;

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review - Bug Hunter Guild</title>
+    <link rel="stylesheet" href="css/color.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="review-page">
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">Bug Hunter Guild</div>
+        <nav class="nav-buttons">
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="quests.html" class="nav-btn">Quests</a>
+            <a href="players.html" class="nav-btn">PVP</a>
+            <a href="review.html" class="nav-btn active">Review</a>
+            <a href="login.html" class="nav-btn">Login</a>
+            <a href="register.html" class="nav-btn">Registration</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Review Form Section -->
+        <div class="review-form-container">
+            <h1 class="review-title">Rate Our Bug Bounty Platform</h1>
+            <p class="review-subtitle">Share your experience with fellow hunters</p>
+
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label for="username">Your Hunter Name:</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your hunter name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Rating:</label>
+                    <div class="star-rating">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
+                    <div class="rating-text">Click on a star to rate!</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reviewText">Your Review:</label>
+                    <textarea id="reviewText" name="reviewText" placeholder="Tell us about your bug hunting experience..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Review</button>
+            </form>
+        </div>
+
+        <!-- Reviews Display Section -->
+        <div class="reviews-section">
+            <h2 class="section-title">Hunter Reviews</h2>
+            <div class="reviews-stats">
+                <div class="average-rating">
+                    <span class="avg-number">0.0</span>
+                    <div class="avg-stars">
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                    </div>
+                    <div class="total-reviews">0 reviews</div>
+                </div>
+            </div>
+
+            <div id="reviewsList" class="reviews-list">
+                <div class="no-reviews">
+                    <p>No reviews yet. Be the first hunter to share your experience!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Particles -->
+    <script src="js/particles.js"></script>
+    <script src="js/interactions.js"></script>
+    <script src="js/reviewUser.js"></script>
+</body>
+</html>
