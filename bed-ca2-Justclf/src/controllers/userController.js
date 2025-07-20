@@ -123,31 +123,10 @@
 // 
 
 
-//////////////////////////////////////////////////////
-// REQUIRE MODULES
-//////////////////////////////////////////////////////
 const model = require("../models/userModel.js");
+const gameUserModel = require("../models/GameUsersModel.js")
 const bcrypt = require("bcrypt");
 
-//////////////////////////////////////////////////////
-// GET ALL PLAYERS BY USER
-//////////////////////////////////////////////////////
-module.exports.readAllUser = (req, res, next) =>
-{
-    const callback = (error, results, fields) => {
-        if (error) {
-            console.error("Error readAllUser:", error);
-            res.status(500).json(error);
-        } 
-        else res.status(200).json(results);
-    }
-
-    model.selectAll(callback);
-}
-
-//////////////////////////////////////////////////////
-// CONTROLLER FOR LOGIN
-//////////////////////////////////////////////////////
 module.exports.login = (req, res, next) =>
 {
     if (!req.body.username || !req.body.password) {
@@ -183,11 +162,7 @@ module.exports.login = (req, res, next) =>
     model.selectByUsername(data, callback)
 };
 
-
-
-//////////////////////////////////////////////////////
-// CONTROLLER FOR REGISTER
-//////////////////////////////////////////////////////
+// Register the user
 module.exports.register = (req, res, next) =>
 {
     const data = {
@@ -208,9 +183,27 @@ module.exports.register = (req, res, next) =>
     model.registering(data, callback);
 }
 
-//////////////////////////////////////////////////////
-// MIDDLEWARE FOR CHECK IF USERNAME OR EMAIL EXISTS
-//////////////////////////////////////////////////////
+// Create gameuser for user
+module.exports.createGameUser = (req, res, next) => {
+    const data = {
+        user_id: res.locals.userId,
+        username: res.locals.username
+    }
+
+    const callback = (error, results, fields) => {
+        if (error) {
+            console.error("Error creating gameuser:", error);
+        } else {
+            console.log("Gameuser created with ID:", results.insertId);
+        }
+        next();
+    }
+    gameUserModel.insertSingle(data, callback);
+}
+
+
+
+// Check if the username or email existed
 module.exports.checkUsernameOrEmailExist = (req,res,next) => {
     const data = {
         username: req.body.username,
@@ -232,7 +225,4 @@ module.exports.checkUsernameOrEmailExist = (req,res,next) => {
     model.selectUsernameOrEmail(data, callback);
 };
 
-//////////////////////////////////////////////////////
-// MIDDLWARE FOR CHECK IF PLAYER BELONGS TO USER
-//////////////////////////////////////////////////////
 

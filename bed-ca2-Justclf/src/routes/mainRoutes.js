@@ -7,7 +7,7 @@ const userController = require('../controllers/userController')
 
 
 router.post("/login", userController.login, bcryptMiddleware.comparePassword, jwtMiddleware.generateToken, jwtMiddleware.sendToken);
-router.post("/register", userController.checkUsernameOrEmailExist, bcryptMiddleware.hashPassword, userController.register, jwtMiddleware.generateToken, jwtMiddleware.sendToken);
+router.post("/register", userController.checkUsernameOrEmailExist, bcryptMiddleware.hashPassword, userController.register, userController.createGameUser, jwtMiddleware.generateToken, jwtMiddleware.sendToken);
 
 
 router.post("/jwt/generate", jwtMiddleware.generateToken, jwtMiddleware.sendToken);
