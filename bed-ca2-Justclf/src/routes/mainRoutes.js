@@ -9,8 +9,9 @@ const QuestsRoutes = require('./QuestsRoutes')
 
 
 router.use("/quests", QuestsRoutes)
-// // User profile route (protected)
-// router.get("/profile", jwtMiddleware.verifyToken, questsController.GetUserProfile);
+
+// User profile route (protected)
+router.get("/profile", jwtMiddleware.verifyToken, questsController.GetUserProfile);
 
 
 

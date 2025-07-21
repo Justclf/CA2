@@ -46,8 +46,8 @@ module.exports.selectByUserId = (data, callback) => {
     JOIN User u ON g.user_id = u.id
     WHERE g.user_id = ?;
     `;
-    const VALUES = [data.user_id];
-    pool.query(SQLSTATMENT, VALUES, callback);
+const VALUES = [data.user_id];
+pool.query(SQLSTATMENT, VALUES, callback);
 }
 
 

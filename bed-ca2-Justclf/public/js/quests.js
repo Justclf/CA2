@@ -304,5 +304,5 @@ function loadUserProfile(token) {
             document.getElementById("currentRank").textContent = "E=Hunter";
         }
     }
-    fetchMethod(currentUrl + "/api/profile", callback, "GET", null, token);
+    fetchMethod(currentURL + "/api/profile", callback, "GET", null, token) // Is GET because we are retrieving the information, and null means that no data is sending to the request body. While token is there becuase it needs to authenticate the users
 }

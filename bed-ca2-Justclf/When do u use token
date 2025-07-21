@@ -1,0 +1,61 @@
+// // RULE: Add token for ANY request that requires knowing WHO the user is
+// 
+// // ✅ TOKEN REQUIRED - Protected/Private Routes
+// // These routes need to know WHO is making the request
+// 
+// // 1. GET USER'S PERSONAL DATA
+// fetchMethod("/api/profile", callback, "GET", null, token);
+// // Why token? Server needs to know WHOSE profile to return
+// 
+// // 2. CREATE QUEST (user-specific action)
+// fetchMethod("/api/quests", callback, "POST", questData, token);  
+// // Why token? Server needs to know WHO is creating the quest
+// 
+// // 3. ACCEPT QUEST (user-specific action)
+// fetchMethod("/api/quests/123/accept", callback, "POST", null, token);
+// // Why token? Server needs to know WHO is accepting the quest
+// 
+// // 4. DELETE QUEST (user can only delete their own)
+// fetchMethod("/api/quests/123", callback, "DELETE", null, token);
+// // Why token? Server needs to verify this user OWNS the quest
+// 
+// // 5. UPDATE USER PROFILE
+// fetchMethod("/api/profile", callback, "PUT", profileData, token);
+// // Why token? Server needs to know WHOSE profile to update
+// 
+// // 6. GET USER'S QUEST HISTORY
+// fetchMethod("/api/my-quests", callback, "GET", null, token);
+// // Why token? Server needs to know WHOSE quest history to return
+// 
+// // ❌ TOKEN NOT REQUIRED - Public Routes
+// // These routes don't need to know who you are
+// 
+// // 1. REGISTER NEW ACCOUNT
+// fetchMethod("/api/register", callback, "POST", userData);
+// // Why no token? You don't have an account yet!
+// 
+// // 2. LOGIN 
+// fetchMethod("/api/login", callback, "POST", loginData);
+// // Why no token? You're trying to GET a token!
+// 
+// // 3. VIEW ALL QUESTS (public viewing)
+// fetchMethod("/api/quests", callback, "GET", null);
+// // Why no token? Anyone can view the quest list
+// 
+// // 4. GET WEBSITE INFO (public data)
+// fetchMethod("/api/about", callback, "GET", null);
+// // Why no token? Public information doesn't need authentication
+// 
+// // REAL EXAMPLES FROM YOUR APP:
+// 
+// // ✅ When user loads quest page - needs their profile info
+// fetchMethod(currentUrl + "/api/profile", callback, "GET", null, token);
+// 
+// // ✅ When user creates quest - needs to know who created it
+// fetchMethod(currentUrl + "/api/quests", callback, "POST", questData, token);
+// 
+// // ❌ When user registers - creating the account that will give them a token
+// fetchMethod(currentUrl + "/api/register", callback, "POST", userData);
+// 
+// // ❌ When user logs in - getting the token they'll use later
+// fetchMethod(currentUrl + "/api/login", callback, "POST", loginData);

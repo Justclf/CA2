@@ -1,4 +1,5 @@
 const model = require("../models/questsModel.js");
+const gameUserModel = require("../models/GameUsersModel.js")
 
 
 module.exports.GetAllQuest = (req, res, next) =>
@@ -139,27 +140,28 @@ module.exports.DeleteQuest = (req, res, next) => {
 }
 
 
-// module.exports.GetUserProfile = (req, res, next) => {
-//     const userId = res.locals.userId; // From JWT token
-// 
-//     const callback = (error, results) => {
-//         if (error) {
-//             console.error("Error GetUserProfile:", error);
-//             return res.status(500).json(error);
-//         }
-// 
-//         if (results.length === 0) {
-//             return res.status(404).json({ message: "User not found" });
-//         }
-// 
-//         const user = results[0];
-//         res.status(200).json({
-//             username: user.username,
-//             xp: user.XP,
-//             rank: user.user_rank,
-//             reputation: user.reputation
-//         });
-//     }
-// 
-//     gameUserModel.selectByUserId({ user_id: userId }, callback);
-// }
+// Get the profile to show information
+module.exports.GetUserProfile = (req, res, next) => {
+    const userId = res.locals.userId; // From JWT token
+
+    const callback = (error, results) => {
+        if (error) {
+            console.error("Error GetUserProfile:", error);
+            return res.status(500).json(error);
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const user = results[0];
+        res.status(200).json({
+            username: user.username,
+            xp: user.XP,
+            rank: user.user_rank,
+            reputation: user.reputation
+        });
+    }
+
+    gameUserModel.selectByUserId({ user_id: userId }, callback);
+}
