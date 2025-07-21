@@ -632,6 +632,10 @@ body.login-page {
     text-shadow: 0 0 5px var(--glow-pink);
 }
 
+.d-none {
+    display: none !important;
+}
+
 /* Responsive Design for Login Page */
 @media (max-width: 768px) {
     .login-page .login-title {

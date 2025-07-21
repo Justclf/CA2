@@ -1,41 +1,33 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const callback = (responseStatus, responseData) => {
-    console.log("responseStatus:", responseStatus);
-    console.log("responseData:", responseData);
-    if (responseStatus == 200) {
-      // Check if login was successful
-      if (responseData.token) {
-        // Store the token in local storage
-        localStorage.setItem("token", responseData.token);
-        // IMPORTANT, THIS IS WHERE IT REDIRECTS TO WHEN CLICK LOGIN
-        window.location.href = "profile.html";
-      }
-    } else {
-      warningCard.classList.remove("d-none");
-      warningText.innerText = responseData.message;
-    }
-  };
-
-  const loginForm = document.getElementById("loginForm");
-
-  const warningCard = document.getElementById("warningCard");
-  const warningText = document.getElementById("warningText");
+  const loginForm = document.getElementById("loginForm"); // Refer to login.html
 
   loginForm.addEventListener("submit", function (event) {
-    console.log("loginForm.addEventListener");
     event.preventDefault();
 
+    // Getting the form values
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
     const data = {
-      username: username,
-      password: password,
-    };
-    // Perform login request
-    fetchMethod(currentUrl + "/api/login", callback, "POST", data);
+        username: username,
+        password: password,
+      };   
 
-    // Reset the form fields
-    loginForm.reset();
+      // Handle the APIs
+      const callback = (responseStatus, responseData) => {
+        if (responseStatus == 200) {
+          console.log("Login successful");
+          if (responseData.token) {
+            localStorage.setItem("token", responseData.token); // Store the token in local storage
+          }
+          alert(`Login Successful. Welcome to the game, ${username}!`)
+          window.location.href = "index.html"; // Where you get to sent to after completing registration
+          return;
+        } else {
+          console.error("Login failed:", responseData);
+          alert(responseData.message || "Login failed. PLease try again");
+        }
+      };
+      fetchMethod(currentUrl + "/api/login", callback, "POST", data);
+    });
   });
-});

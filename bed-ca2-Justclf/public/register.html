@@ -19,8 +19,10 @@
             <a href="quests.html" class="nav-btn">Quests</a>
             <a href="pvp.html" class="nav-btn">PVP</a>
             <a href="review.html" class="nav-btn">Review</a>
-            <a href="login.html" class="nav-btn">Login</a>
-            <a href="register.html" class="nav-btn">Registration</a>
+            <a href="login.html" class="nav-btn" id="loginButton">Login</a>
+            <a href="register.html" class="nav-btn" id="registerButton">Registration</a>
+            <a href="profile.html" class="nav-btn d-none" id="profileButton">Profile</a>
+            <a href="#" class="nav-btn d-none" id="logoutButton">Logout</a>
         </nav>
     </header>
 
@@ -28,7 +30,7 @@
         <div class="register-container">
             <h1 class="register-title">Register</h1>
 
-            <form id="registerForm">
+            <form id="registerForm"> <!--Name must be the same in registerUser.js-->
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" required>
@@ -58,8 +60,8 @@
     </div>
 
     <!-- Floating Particles -->
-    <script src="js/particles.js"></script>
-    <script src="js/interactions.js"></script>
+    <script src="js/getCurrentURL.js"></script>
+    <script src="js/userNavbarToggle.js"></script>
     <script src="js/registerUser.js"></script>
 </body>
 </html>

@@ -25,3 +25,14 @@ module.exports.selectUsernameOrEmail = (data, callback) =>
   pool.query(SQLSTATEMENT, VALUES, callback);
 }
 
+//////////////////////////////////////////////////////
+// SELECT USER BY USERNAME (FOR LOGIN)
+//////////////////////////////////////////////////////
+module.exports.selectByUsername = (data, callback) => {
+    const SQLSTATEMENT = `
+    SELECT id, username, email, password, reputation FROM User
+    WHERE username = ?
+    `;
+    const VALUES = [data.username];
+    pool.query(SQLSTATEMENT, VALUES, callback);
+}

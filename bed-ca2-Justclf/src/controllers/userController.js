@@ -151,10 +151,9 @@ module.exports.login = (req, res, next) =>
 
         const user = results[0];
 
-        // ← **ADD these two lines** so comparePassword has the data it needs
+        // Add these two lines** so comparePassword has the data it needs
         res.locals.hash   = user.password; // .hash because it is the name we chose at bcryptMiddleware.js
         res.locals.userId = user.id;
-        console.log("res.locals.hash ",res.locals.hash )
         console.log("res.locals.userId", res.locals.userId)
         next();
 
@@ -176,7 +175,12 @@ module.exports.register = (req, res, next) =>
             console.error("Error registering:", error);
             res.status(500).json(error);
         }
-        else res.locals.message =`User ${data.username} created succesfuly`
+        res.locals.userId = results.insertId;
+        res.locals.username = data.username;
+        res.locals.message =`User ${data.username} created succesfuly`;
+
+        console.log("User registered with ID:", res.locals.userId);
+        console.log("Username stored:", res.locals.username);
         next(); // need next to work properly
         // else res.status(200).json({message: `User ${data.username} created succesfuly`});
     }
@@ -185,6 +189,9 @@ module.exports.register = (req, res, next) =>
 
 // Create gameuser for user
 module.exports.createGameUser = (req, res, next) => {
+    console.log("Creating GameUser for:", res.locals.username);
+    console.log("User ID:", res.locals.userId);
+    
     const data = {
         user_id: res.locals.userId,
         username: res.locals.username

@@ -68,13 +68,11 @@ bcrypt.hash('1234', saltRounds, (error, hash) => {
 
       
 
-    
-
       CREATE TABLE GameUser (
       id INT AUTO_INCREMENT PRIMARY KEY,
       user_id INT NOT NULL,
       username VARCHAR(255) NOT NULL UNIQUE,
-      XP INT NOT NULL DEFAULT 0,
+      XP INT NOT NULL DEFAULT 100,
       user_rank VARCHAR(20) NOT NULL DEFAULT "E-Hunter",
       FOREIGN KEY (user_id) REFERENCES User(id)
       );
