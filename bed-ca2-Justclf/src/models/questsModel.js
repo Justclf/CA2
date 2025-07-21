@@ -10,16 +10,14 @@ module.exports.insertQuest = (data, callback) => {
     pool.query(SQLSTATEMENT, VALUES, callback);
 }
 
-module.exports.selectAll = (callback) =>
-{
+module.exports.selectAll = (callback) => {
     const SQLSTATEMENT = `
     SELECT * FROM quests;
     `;
     pool.query(SQLSTATEMENT, callback);
 }
 
-module.exports.selectById = (data, callback) =>
-{
+module.exports.selectById = (data, callback) => {
     const SQLSTATEMENT = `
     SELECT * FROM quests
     WHERE id = ?;
@@ -28,8 +26,7 @@ module.exports.selectById = (data, callback) =>
     pool.query(SQLSTATEMENT, VALUES, callback);
 }
 
-module.exports.updateById = (data, callback) =>
-{
+module.exports.updateById = (data, callback) => {
     const SQLSTATEMENT = `
     UPDATE quests
     SET title = ?, 
@@ -42,9 +39,18 @@ module.exports.updateById = (data, callback) =>
     pool.query(SQLSTATEMENT, VALUES, callback);
 }
 
+// Add delete method
+module.exports.deleteById = (data, callback) => {
+    const SQLSTATEMENT = `
+    DELETE FROM quests
+    WHERE id = ?;
+    `;
+    const VALUES = [data.id];
+    pool.query(SQLSTATEMENT, VALUES, callback);
+}
+
 // Retrieve the xp then store it in controller
-module.exports.GetXpReward = (data, callback) => 
-{
+module.exports.GetXpReward = (data, callback) => {
     const SQLSTATEMENT = `
     SELECT q.xp_reward, gu.username
     FROM quests q
@@ -75,8 +81,7 @@ module.exports.StartingQuest = (data, callback) => {
     pool.query(SQLSTATEMENT, VALUES, callback);
 }
 
-module.exports.finishQuest = (data, callback) =>
-{
+module.exports.finishQuest = (data, callback) => {
     // remove quest start
     const SQLSTATEMENT_REMOVE_START = `
     DELETE FROM QuestStart

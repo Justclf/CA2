@@ -1,280 +1,308 @@
-// quests.js - Updated for your HTML structure
-const currentUrl = window.location.origin;
+// // quests.js - Updated for your HTML structure
+// document.addEventListener("DOMContentLoaded", function () {
+//   const token = localStorage.getItem("token");
+//   
+//   // Check if user is logged in
+//   if (!token) {
+//     alert("Please log in to view quests");
+//     window.location.href = "login.html";
+//     return;
+//   }
+//   
+//   // Load user info and quests
+//   loadUserInfo(token);
+//   loadQuests(token);
+//   
+//   // Set up quest creation form
+//   setupQuestCreation(token);
+//   
+//   // Set up quest filters
+//   setupQuestFilters(token);
+// });
+// 
+// function loadUserInfo(token) {
+//   const callback = (responseStatus, responseData) => {
+//     console.log("User info responseStatus:", responseStatus);
+//     console.log("User info responseData:", responseData);
+//     
+//     if (responseStatus === 200) {
+//       document.getElementById('currentHunter').textContent = responseData.username || 'Unknown Hunter';
+//       document.getElementById('currentXP').textContent = responseData.xp || '0';
+//       document.getElementById('currentRank').textContent = responseData.rank || 'Novice';
+//     } else {
+//       console.error("Failed to load user info:", responseData);
+//       document.getElementById('currentHunter').textContent = 'Unknown Hunter';
+//       document.getElementById('currentXP').textContent = '0';
+//       document.getElementById('currentRank').textContent = 'Novice';
+//     }
+//   };
+//   
+//   fetchMethod(currentUrl + "/api/profile", callback, "GET", null, token);
+// }
+// 
+// function loadQuests(token) {
+//   const callback = (responseStatus, responseData) => {
+//     console.log("Quests responseStatus:", responseStatus);
+//     console.log("Quests responseData:", responseData);
+//     
+//     if (responseStatus === 200) {
+//       displayQuests(responseData, token);
+//     } else {
+//       console.error("Failed to load quests:", responseData);
+//       showNoQuests("Failed to load quests. Please try again.");
+//     }
+//   };
+//   
+//   fetchMethod(currentUrl + "/api/quests", callback, "GET", null, token);
+// }
+// 
+// function displayQuests(quests, token) {
+//   const questsSection = document.querySelector('.quests-section');
+//   
+//   // Remove existing quest list if it exists
+//   let questsList = questsSection.querySelector('.quests-list');
+//   if (questsList) {
+//     questsList.remove();
+//   }
+//   
+//   // Create new quests list
+//   questsList = document.createElement('div');
+//   questsList.className = 'quests-list';
+//   questsSection.appendChild(questsList);
+//   
+//   if (!quests || quests.length === 0) {
+//     showNoQuests("No quests available. Create the first one!");
+//     return;
+//   }
+//   
+//   // Create quest cards
+//   quests.forEach((quest) => {
+//     const questCard = createQuestCard(quest, token);
+//     questsList.appendChild(questCard);
+//   });
+// }
+// 
+// function createQuestCard(quest, token) {
+//   const difficultyRankMap = {
+//     'Beginner': 'E-Rank',
+//     'Intermediate': 'D-Rank', 
+//     'Advanced': 'C-Rank',
+//     'Expert': 'B-Rank',
+//     'Master': 'A-Rank',
+//     'Legendary': 'S-Rank'
+//   };
+//   
+//   const rankDisplay = difficultyRankMap[quest.recommended_rank] || quest.recommended_rank;
+//   const isOwnQuest = quest.isOwner || false; // Backend should determine this
+//   
+//   const questDiv = document.createElement('div');
+//   questDiv.className = `quest-card ${isOwnQuest ? 'own-quest' : ''}`;
+//   
+//   questDiv.innerHTML = `
+//     <div class="quest-header">
+//       <div>
+//         <div class="quest-title">${escapeHtml(quest.title)}</div>
+//         <div class="quest-creator">Created by: ${escapeHtml(quest.creator || 'Unknown')}</div>
+//       </div>
+//       <div class="quest-info">
+//         <div class="quest-xp">+${quest.xp_reward || 0} XP</div>
+//         <div class="quest-difficulty difficulty-${(quest.recommended_rank || 'beginner').toLowerCase()}">
+//           ${quest.recommended_rank || 'Beginner'} (${rankDisplay})
+//         </div>
+//       </div>
+//     </div>
+//     
+//     <div class="quest-description">
+//       ${escapeHtml(quest.description || 'No description provided.')}
+//     </div>
+//     
+//     <div class="quest-actions">
+//       ${isOwnQuest ? 
+//         `<button class="delete-quest-btn" onclick="deleteQuest('${quest.id}', '${token}')">Delete Quest</button>` :
+//         `<button class="accept-btn" onclick="acceptQuest('${quest.id}', '${token}')">Accept Quest</button>`
+//       }
+//     </div>
+//   `;
+//   
+//   return questDiv;
+// }
+// 
+// function showNoQuests(message) {
+//   const questsSection = document.querySelector('.quests-section');
+//   let questsList = questsSection.querySelector('.quests-list');
+//   
+//   if (!questsList) {
+//     questsList = document.createElement('div');
+//     questsList.className = 'quests-list';
+//     questsSection.appendChild(questsList);
+//   }
+//   
+//   questsList.innerHTML = `<div class="no-quests">${message}</div>`;
+// }
+// 
+// function setupQuestCreation(token) {
+//   const createForm = document.getElementById('createQuestForm');
+//   
+//   if (createForm) {
+//     createForm.addEventListener('submit', function(event) {
+//       event.preventDefault();
+//       
+//       const formData = {
+//         questTitle: document.getElementById('questTitle').value.trim(),
+//         questDescription: document.getElementById('questDescription').value.trim(),
+//         questDifficulty: document.getElementById('questDifficulty').value,
+//         questXP: parseInt(document.getElementById('questXP').value) || 1
+//       };
+//       
+//       // Validate form data
+//       if (!formData.questTitle || !formData.questDescription || !formData.questDifficulty) {
+//         alert('Please fill in all required fields');
+//         return;
+//       }
+//       
+//       if (formData.questXP < 1 || formData.questXP > 100) {
+//         alert('XP reward must be between 1 and 100');
+//         return;
+//       }
+//       
+//       const callback = (responseStatus, responseData) => {
+//         console.log("Create quest responseStatus:", responseStatus);
+//         console.log("Create quest responseData:", responseData);
+//         
+//         if (responseStatus === 201 || responseStatus === 200) {
+//           alert('Quest created successfully!');
+//           createForm.reset();
+//           loadQuests(token);
+//           loadUserInfo(token);
+//         } else {
+//           alert(responseData.message || 'Failed to create quest. Please try again.');
+//         }
+//       };
+//       
+//       fetchMethod(currentUrl + "/api/quests", callback, "POST", formData, token);
+//     });
+//   }
+// }
+// 
+// function setupQuestFilters(token) {
+//   const difficultyFilter = document.getElementById('difficultyFilter');
+//   
+//   if (difficultyFilter) {
+//     difficultyFilter.addEventListener('change', function() {
+//       filterQuests(token);
+//     });
+//   }
+// }
+// 
+// function filterQuests(token) {
+//   const selectedDifficulty = document.getElementById('difficultyFilter').value;
+//   
+//   const callback = (responseStatus, responseData) => {
+//     console.log("Filter quests responseStatus:", responseStatus);
+//     console.log("Filter quests responseData:", responseData);
+//     
+//     if (responseStatus === 200) {
+//       let quests = responseData;
+//       
+//       // Filter by difficulty if selected
+//       if (selectedDifficulty) {
+//         quests = quests.filter(quest => 
+//           quest.recommended_rank === selectedDifficulty
+//         );
+//       }
+//       
+//       displayQuests(quests, token);
+//     } else {
+//       console.error("Failed to filter quests:", responseData);
+//     }
+//   };
+//   
+//   fetchMethod(currentUrl + "/api/quests", callback, "GET", null, token);
+// }
+// 
+// function acceptQuest(questId, token) {
+//   const callback = (responseStatus, responseData) => {
+//     console.log("Accept quest responseStatus:", responseStatus);
+//     console.log("Accept quest responseData:", responseData);
+//     
+//     if (responseStatus === 200) {
+//       alert('Quest accepted successfully!');
+//       loadQuests(token);
+//       loadUserInfo(token);
+//     } else {
+//       alert(responseData.message || 'Failed to accept quest. Please try again.');
+//     }
+//   };
+//   
+//   fetchMethod(currentUrl + `/api/quests/${questId}/accept`, callback, "POST", null, token);
+// }
+// 
+// // function deleteQuest(questId, token) {
+// //   if (!confirm('Are you sure you want to delete this quest?')) {
+// //     return;
+// //   }
+// //   
+// //   const callback = (responseStatus, responseData) => {
+// //     console.log("Delete quest responseStatus:", responseStatus);
+// //     console.log("Delete quest responseData:", responseData);
+// //     
+// //     if (responseStatus === 200) {
+// //       alert('Quest deleted successfully!');
+// //       loadQuests(token);
+// //       loadUserInfo(token);
+// //     } else {
+// //       alert(responseData.message || 'Failed to delete quest. Please try again.');
+// //     }
+// //   };
+// //   
+// //   fetchMethod(currentUrl + `/api/quests/${questId}`, callback, "DELETE", null, token);
+// // }
+// 
+// function escapeHtml(text) {
+//   const div = document.createElement('div');
+//   div.textContent = text;
+//   return div.innerHTML;
+// }
+// 
+// 
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
-    
-    // Check if user is logged in
+
+    // Check if user have assigned token
     if (!token) {
-        // User not logged in - redirect to login or show message
-        alert("Please log in to view quests");
+        alert("Please log in to view the quests");
         window.location.href = "login.html";
-        return;
+        return
     }
-    
-    // User is logged in - load quest data
-    loadUserInfo(token);
-    loadQuests(token);
-    
-    // Set up quest creation form
-    setupQuestCreation(token);
-    
-    // Set up quest filters
-    setupQuestFilters(token);
+
+    // load user profile
+    loadUserProfile(token);
+
+    // load all quests
+    loadAllQuests(token);
+
+    // show the quest creation
+    loadQuestCreation(token);
 });
 
-// Function to load user information (name, XP, rank)
-function loadUserInfo(token) {
-    const callback = (status, data) => {
-        if (status === 200) {
-            // Update user stats using your specific IDs
-            document.getElementById('currentHunter').textContent = data.username || 'Unknown Hunter';
-            document.getElementById('currentXP').textContent = data.xp || '0';
-            document.getElementById('currentRank').textContent = data.rank || 'Novice';
+
+function loadUserProfile(token) {
+    const callback = (responseStatus, responseData) => {
+        console.log("User profile responseStatus:", responseStatus);
+        console.log("User profile responseData:", responseData);
+
+        if (responseStatus === 200) {
+            document.getElementById("currentHunter").textContent = responseData.username;
+            document.getElementById("currentXP").textContent = responseData.xp;
+            document.getElementById("currentRank").textContent = responseData.rank;
         } else {
-            console.error("Failed to load user info:", data);
-            // Set default values
-            document.getElementById('currentHunter').textContent = 'Unknown Hunter';
-            document.getElementById('currentXP').textContent = '0';
-            document.getElementById('currentRank').textContent = 'Novice';
+            console.error("Failed to load user profile:", responseData);
+            document.getElementById("currentHunter").textContent = "Unknown";
+            document.getElementById("currentXP").textContent = "0";
+            document.getElementById("currentRank").textContent = "E=Hunter";
         }
-    };
-    
-    // Fetch user profile data
+    }
     fetchMethod(currentUrl + "/api/profile", callback, "GET", null, token);
-}
-
-// Function to load all quests
-function loadQuests(token) {
-    const callback = (status, data) => {
-        if (status === 200) {
-            displayQuests(data.quests || data, token); // Handle different API response formats
-        } else {
-            console.error("Failed to load quests:", data);
-            showNoQuests("Failed to load quests. Please try again.");
-        }
-    };
-    
-    // Fetch all quests
-    fetchMethod(currentUrl + "/api/quests", callback, "GET", null, token);
-}
-
-// Function to display quests in the UI
-function displayQuests(quests, token) {
-    const questsSection = document.querySelector('.quests-section');
-    
-    // Remove existing quest list if it exists
-    let questsList = questsSection.querySelector('.quests-list');
-    if (questsList) {
-        questsList.remove();
-    }
-    
-    // Create new quests list
-    questsList = document.createElement('div');
-    questsList.className = 'quests-list';
-    questsSection.appendChild(questsList);
-    
-    if (!quests || quests.length === 0) {
-        showNoQuests("No quests available. Create the first one!");
-        return;
-    }
-    
-    // Get current user info to identify own quests
-    const currentUser = getCurrentUser(token);
-    
-    // Create quest cards
-    quests.forEach(quest => {
-        const questCard = createQuestCard(quest, currentUser, token);
-        questsList.appendChild(questCard);
-    });
-}
-
-// Function to create a single quest card
-function createQuestCard(quest, currentUser, token) {
-    const isOwnQuest = quest.creatorId === currentUser?.id || quest.creator === currentUser?.username;
-    
-    const questDiv = document.createElement('div');
-    questDiv.className = `quest-card ${isOwnQuest ? 'own-quest' : ''}`;
-    
-    // Map difficulty to rank display
-    const difficultyRankMap = {
-        'Beginner': 'E-Rank',
-        'Intermediate': 'D-Rank', 
-        'Advanced': 'C-Rank',
-        'Expert': 'B-Rank',
-        'Master': 'A-Rank',
-        'Legendary': 'S-Rank'
-    };
-    
-    const rankDisplay = difficultyRankMap[quest.difficulty] || quest.difficulty;
-    
-    questDiv.innerHTML = `
-        <div class="quest-header">
-            <div>
-                <div class="quest-title">${escapeHtml(quest.title || quest.questTitle)}</div>
-                <div class="quest-creator">Created by: ${escapeHtml(quest.creator || quest.creatorName || 'Unknown')}</div>
-            </div>
-            <div class="quest-info">
-                <div class="quest-xp">+${quest.xp || quest.questXP || 0} XP</div>
-                <div class="quest-difficulty difficulty-${(quest.difficulty || 'beginner').toLowerCase()}">
-                    ${quest.difficulty || 'Beginner'} (${rankDisplay})
-                </div>
-            </div>
-        </div>
-        
-        <div class="quest-description">
-            ${escapeHtml(quest.description || quest.questDescription || 'No description provided.')}
-        </div>
-        
-        <div class="quest-actions">
-            ${isOwnQuest ? 
-                `<button class="delete-quest-btn" onclick="deleteQuest('${quest.id}', '${token}')">Delete Quest</button>` :
-                `<button class="accept-btn" onclick="acceptQuest('${quest.id}', '${token}')">Accept Quest</button>`
-            }
-        </div>
-    `;
-    
-    return questDiv;
-}
-
-// Function to show "no quests" message
-function showNoQuests(message) {
-    const questsSection = document.querySelector('.quests-section');
-    let questsList = questsSection.querySelector('.quests-list');
-    
-    if (!questsList) {
-        questsList = document.createElement('div');
-        questsList.className = 'quests-list';
-        questsSection.appendChild(questsList);
-    }
-    
-    questsList.innerHTML = `<div class="no-quests">${message}</div>`;
-}
-
-// Function to set up quest creation form
-function setupQuestCreation(token) {
-    const createForm = document.getElementById('createQuestForm');
-    
-    if (createForm) {
-        createForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            // Get form data using your specific field names
-            const formData = {
-                questTitle: document.getElementById('questTitle').value.trim(),
-                questDescription: document.getElementById('questDescription').value.trim(),
-                questDifficulty: document.getElementById('questDifficulty').value,
-                questXP: parseInt(document.getElementById('questXP').value) || 1
-            };
-            
-            // Validate form data
-            if (!formData.questTitle || !formData.questDescription || !formData.questDifficulty) {
-                alert('Please fill in all required fields');
-                return;
-            }
-            
-            // Check XP range
-            if (formData.questXP < 1 || formData.questXP > 100) {
-                alert('XP reward must be between 1 and 100');
-                return;
-            }
-            
-            const callback = (status, data) => {
-                if (status === 201 || status === 200) {
-                    alert('Quest created successfully!');
-                    createForm.reset();
-                    loadQuests(token); // Refresh quest list
-                    loadUserInfo(token); // Refresh user info (XP might have changed)
-                } else {
-                    alert(data.message || 'Failed to create quest. Please try again.');
-                }
-            };
-            
-            // Send quest creation request
-            fetchMethod(currentUrl + "/api/quests", callback, "POST", formData, token);
-        });
-    }
-}
-
-// Function to set up quest filters
-function setupQuestFilters(token) {
-    const difficultyFilter = document.getElementById('difficultyFilter');
-    
-    if (difficultyFilter) {
-        difficultyFilter.addEventListener('change', function() {
-            filterQuests(token);
-        });
-    }
-}
-
-// Function to filter quests based on selected criteria
-function filterQuests(token) {
-    const selectedDifficulty = document.getElementById('difficultyFilter').value;
-    
-    const callback = (status, data) => {
-        if (status === 200) {
-            let quests = data.quests || data;
-            
-            // Filter by difficulty if selected
-            if (selectedDifficulty) {
-                quests = quests.filter(quest => 
-                    (quest.difficulty || quest.questDifficulty) === selectedDifficulty
-                );
-            }
-            
-            displayQuests(quests, token);
-        } else {
-            console.error("Failed to filter quests:", data);
-        }
-    };
-    
-    // Fetch all quests and then filter
-    fetchMethod(currentUrl + "/api/quests", callback, "GET", null, token);
-}
-
-// Function to accept a quest
-function acceptQuest(questId, token) {
-    const callback = (status, data) => {
-        if (status === 200) {
-            alert('Quest accepted successfully!');
-            loadQuests(token); // Refresh quest list
-            loadUserInfo(token); // Refresh user info (XP might have changed)
-        } else {
-            alert(data.message || 'Failed to accept quest. Please try again.');
-        }
-    };
-    
-    fetchMethod(currentUrl + `/api/quests/${questId}/accept`, callback, "POST", null, token);
-}
-
-// Function to delete a quest
-function deleteQuest(questId, token) {
-    if (!confirm('Are you sure you want to delete this quest?')) {
-        return;
-    }
-    
-    const callback = (status, data) => {
-        if (status === 200) {
-            alert('Quest deleted successfully!');
-            loadQuests(token); // Refresh quest list
-            loadUserInfo(token); // Refresh user info (XP might be restored)
-        } else {
-            alert(data.message || 'Failed to delete quest. Please try again.');
-        }
-    };
-    
-    fetchMethod(currentUrl + `/api/quests/${questId}`, callback, "DELETE", null, token);
-}
-
-// Helper function to get current user info
-function getCurrentUser(token) {
-    // This is a simplified version - you might need to decode the JWT token
-    // or make an API call to get current user info
-    try {
-        // If your token contains user info, decode it here
-        // For now, return null and let the backend handle ownership
-        return null;
-    } catch (error) {
-        return null;
-    }
 }

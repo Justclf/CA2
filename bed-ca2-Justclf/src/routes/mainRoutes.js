@@ -4,11 +4,13 @@ const router = express.Router();
 const jwtMiddleware = require('../middlewares/jwtMiddleware');
 const bcryptMiddleware = require('../middlewares/bcryptMiddleware');
 const userController = require('../controllers/userController')
+const questsController = require('../controllers/questsController');
 const QuestsRoutes = require('./QuestsRoutes')
 
 
 router.use("/quests", QuestsRoutes)
-
+// // User profile route (protected)
+// router.get("/profile", jwtMiddleware.verifyToken, questsController.GetUserProfile);
 
 
 

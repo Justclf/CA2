@@ -1265,12 +1265,12 @@ body.quest-page {
     transition: all 0.3s ease;
     position: relative;
 }
-
+/* 
 .quest-page .quest-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(157, 78, 221, 0.4);
     border-color: var(--secondary-pink);
-}
+} */
 
 .quest-page .quest-header {
     display: flex;

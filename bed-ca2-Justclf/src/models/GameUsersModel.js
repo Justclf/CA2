@@ -38,18 +38,19 @@ const VALUES = [data.id];
 pool.query(SQLSTATMENT, VALUES, callback);
 }
 
-
-module.exports.updateById = (data, callback) =>
-{
+// Add this method to get user by user_id (for profile)
+module.exports.selectByUserId = (data, callback) => {
     const SQLSTATMENT = `
-    UPDATE gameuser
-    SET username = ?
-    WHERE id = ?;
+    SELECT g.id, g.user_id, g.username, g.XP, g.user_rank, u.reputation
+    FROM gameuser g
+    JOIN User u ON g.user_id = u.id
+    WHERE g.user_id = ?;
     `;
-const VALUES = [data.username, data.id];
-
-pool.query(SQLSTATMENT, VALUES, callback);
+    const VALUES = [data.user_id];
+    pool.query(SQLSTATMENT, VALUES, callback);
 }
+
+
 
 
 module.exports.challengePlayers = (data, callback) =>
