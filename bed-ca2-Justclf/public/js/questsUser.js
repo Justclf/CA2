@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadAllQuests(token);
 
     // show the quest creation
-    loadQuestCreation(token);
+    loadQuest(token);
 });
 
 
@@ -42,10 +42,8 @@ function loadUserProfile(token) {
 
 
 // Load the quests
-function displayQuests(token) {
+function displayQuests(quests, token) {
     const questsSection = document.querySelector('.quests-section') // selecting the quests-section css
-
-
     // remove existing quest if exist
     let questsList = questsSection.querySelector('.quests-list');
     if (questsList) {
@@ -57,7 +55,7 @@ function displayQuests(token) {
     questsSection.appendChild(questsList);
 
     if (!quests || quests.length === 0) {
-        ShowNoQuests = ("No quests available");
+        showNoQuests = ("No quests available");
         return; 
     }
 
@@ -127,7 +125,8 @@ function showNoQuests(message) {
 }
 
 
-function setupQuestCreation(token) {
+
+function loadQuest(token) {
     const createForm = document.getElementById('createQuestForm');
 
     if (createForm) {
@@ -170,6 +169,8 @@ function setupQuestCreation(token) {
     }
 }
 
+
+// Accept the quest
 function acceptQuest(questId, token) {
     const callback = (responseStatus, responseData) => {
         console.log("Accept quest responseStatus:", responseStatus);
@@ -186,6 +187,8 @@ function acceptQuest(questId, token) {
     fetchMethod(currentUrl + `/api/quests/${questId}/accept`, callback, "POST", null, token)
 }
 
+
+// Delete the quest
 function deleteQuest(questId, token) {
     if (!confirm("Are you sure you want to delete this quest?")) {
         return;

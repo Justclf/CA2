@@ -54,8 +54,6 @@ module.exports.CreateQuest = (req, res, next) =>
 
 module.exports.AcceptQuest = (req, res, next) =>
 {
-    
-
     const data = {
         id: req.params.questId,
         user_id: req.body.userid // Take from JWT token
