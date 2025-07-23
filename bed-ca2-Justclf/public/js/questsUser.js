@@ -44,12 +44,6 @@ function loadUserProfile(token) {
 // Load the quests
 function displayQuests(quests, token) {
     const questsSection = document.querySelector('.quests-section') // selecting the quests-section css
-    // remove existing quest if exist
-    let questsList = questsSection.querySelector('.quests-list');
-    if (questsList) {
-        questsList.remove();
-    }
-
     questsList = document.createElement('div') // Create div element
     questsList.className = 'quests-list';
     questsSection.appendChild(questsList);
@@ -140,7 +134,7 @@ function showNoQuests(message) {
 
 
 
-function loadQuest(token) {
+function loadQuestCreation(token) {
     const createForm = document.getElementById('createQuestForm');
 
     if (createForm) {
@@ -186,6 +180,7 @@ function loadQuest(token) {
 
 // Accept the quest
 function acceptQuest(questId, token) {
+    const data = {};
     const callback = (responseStatus, responseData) => {
         console.log("Accept quest responseStatus:", responseStatus);
         console.log("Accept quest responseData:", responseData);
@@ -198,7 +193,7 @@ function acceptQuest(questId, token) {
             alert (responseData.message || 'Failed to accept quest. Please try again')
         }
     };
-    fetchMethod(currentUrl + `/api/quests/${questId}/accept`, callback, "POST", null, token)
+    fetchMethod(currentUrl + `/api/quests/${questId}/accept`, callback, "POST", data, token)
 }
 
 

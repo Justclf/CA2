@@ -22,7 +22,7 @@ module.exports.selectById = (data, callback) => {
     SELECT * FROM quests
     WHERE id = ?;
     `;
-    const VALUES = [data.id];
+    const VALUES = [data.questId || data.id];
     pool.query(SQLSTATEMENT, VALUES, callback);
 }
 
@@ -82,8 +82,21 @@ module.exports.StartingQuest = (data, callback) => {
 }
 
 module.exports.finishQuest = (data, callback) => {
-    // remove quest start
-    const SQLSTATEMENT_REMOVE_START = `
+    const SQLSTATEMENT_GET_GAMEUSER = `
+    SELECT id
+    FROM gameuser
+    WHERE user_id = ?
+    `;
+    const VALUES_GET_GAMEUSER = [data.user_id];
+
+    pool.query(SQLSTATEMENT_GET_GAMEUSER, VALUES_GET_GAMEUSER, (error, gameuserResults) => {
+        if (error) return callback(error);
+            if(gameuserResults.length === 0) {
+                return callback({code: 'USER_NOT_FOUND', message: 'Game user not found'});
+            }
+        const gameUserId = gameuserResults[0].id;
+
+        const SQLSTATEMENT_REMOVE_START = `
     DELETE FROM QuestStart
     WHERE user_id = ? AND quest_id = ?;
     `;
@@ -159,4 +172,5 @@ module.exports.finishQuest = (data, callback) => {
             });
         });
     });
-};
+});
+}

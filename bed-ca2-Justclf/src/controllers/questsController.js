@@ -56,7 +56,7 @@ module.exports.AcceptQuest = (req, res, next) =>
 {
     const data = {
         id: req.params.questId,
-        user_id: req.body.userid // Take from JWT token
+        user_id: req.locals.userid // Take from JWT token
     }
 
     // 
@@ -78,8 +78,8 @@ module.exports.AcceptQuest = (req, res, next) =>
         }
         res.status(200).json({
             message: "Quest accepted successfully",
-            quest_id: questId,
-            user_id: userId
+            quest_id: data.id,
+            user_id: data.user_id
         });
     }
     model.StartingQuest(data, callback);
@@ -132,7 +132,7 @@ module.exports.DeleteQuest = (req, res, next) => {
             }
             res.status(200).json({message: "Quest deleted successfully"})
         }
-        model.deleteById({id: questId}, callbackDelete)
+        model.deleteById({id: data.questId}, callbackDelete)
     }
     model.selectById(data, callbackCheck);
 }
