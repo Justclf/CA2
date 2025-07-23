@@ -80,7 +80,8 @@ bcrypt.hash('1234', saltRounds, (error, hash) => {
 
       INSERT INTO GameUser (user_id, username, user_rank)
       VALUES
-      (1, "SJW", "E-Hunter");
+      (1, "Sung Jin Woo", "S-Hunter"),
+      (2, "Cha Hae In", "S-Hunter");
 
 
       CREATE TABLE Quests (

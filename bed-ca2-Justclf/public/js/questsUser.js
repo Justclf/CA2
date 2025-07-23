@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadAllQuests(token);
 
     // show the quest creation
-    loadQuest(token);
+    loadQuestCreation(token);
 });
 
 
@@ -51,11 +51,11 @@ function displayQuests(quests, token) {
     }
 
     questsList = document.createElement('div') // Create div element
-    questsList.className = 'quests-List';
+    questsList.className = 'quests-list';
     questsSection.appendChild(questsList);
 
     if (!quests || quests.length === 0) {
-        showNoQuests = ("No quests available");
+        showNoQuests("No quests available");
         return; 
     }
 
@@ -84,24 +84,37 @@ function createQuestCard(quest, token) {
     questDiv.className = `quest-card ${isOwnQuest ? 'own-quest' : ''}`; // quest-card.own-quest, ai 
 
     questDiv.innerHTML = `
-        <div class = "quest-header">
-            <div>
-                <div class="quest-title">${quest.title}</div>
-                <div class="quest-creator">Created by: ${(quest.creator || 'Unknown')}</div>
+        <div class="quest-header">
+            <div class="quest-info-badge">
+                Quest Info
             </div>
-            <div class = "quest-info">
-                <div class = "quest-xp">+${quest.xp_reward || 0} XP</div>
-                <div class = "quest-difficulty difficulty-${(quest.recommended_rank || 'beginner').toLowerCase()}>
-                    ${quest.recommended_rank || 'Beginner'} (${rankDisplay})
-                </div>
+            <div class="quest-title">${quest.title}</div>
+        </div>
+
+        <div class="quest-goals">
+            <div class="quest-goals-title">Objective</div>
+            <div class="quest-description">
+                ${quest.description || 'No description provided'}
             </div>
         </div>
 
-        <div class="quest-description">
-            ${(quest.description || 'No description is provided')}
+        <div class="quest-rewards">
+            <div class="quest-xp">+${quest.xp_reward || 0} XP</div>
+            <div class="quest-difficulty difficulty-${(quest.recommended_rank || 'beginner').toLowerCase()}">
+                ${quest.recommended_rank || 'Beginner'} (${rankDisplay})
+            </div>
         </div>
 
-        <div class = "quest-actions">
+        <div class="quest-warning">
+            <div class="quest-warning-title">Caution!</div>
+            <div class="quest-warning-text">
+                ${isOwnQuest ? 
+                    'This is your quest. You can delete it but cannot accept it.' : 
+                    'Once accepted, you must complete this quest to gain XP rewards.'}
+            </div>
+        </div>
+
+        <div class="quest-actions">
             ${isOwnQuest ?
                 `<button class="delete-quest-btn" onclick="deleteQuest('${quest.id}', '${token}')">Delete Quest</button>` :
                 `<button class="accept-btn" onclick="acceptQuest('${quest.id}', '${token}')">Accept Quest</button>`
@@ -110,6 +123,7 @@ function createQuestCard(quest, token) {
     `;
     return questDiv;
 }
+
 
 
 function showNoQuests(message) {
@@ -219,7 +233,7 @@ function loadAllQuests(token) {
             displayQuests(responseData, token);
         } else {
             console.error("Failed to load quests:", responseData);
-            NoShowQuest("Failed to load quest. Please try again.");
+            showNoQuests("Failed to load quest. Please try again.");
         }
     }
     fetchMethod(currentUrl + "/api/quests", callback, "GET", null, token)
