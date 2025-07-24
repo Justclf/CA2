@@ -15,76 +15,121 @@ module.exports.GetAllQuest = (req, res, next) =>
     model.selectAll(callback);
 }
 
-module.exports.CreateQuest = (req, res, next) =>
+module.exports.CreateQuest = (req, res) =>
 {
     if(!req.body.questTitle || !req.body.questDescription || !req.body.questDifficulty)
     {
         res.status(400).json({message: "Missing required fields"});
         return;
     }
- 
-    const data = {
-        title: req.body.questTitle,
-        description: req.body.questDescription,
-        xp_reward: req.body.questXP,
-        recommended_rank: req.body.questDifficulty
-    }
 
-    const callback = (error, results, fields) => {
+    const userId = res.locals.userId;
+    const xpCost = parseInt(req.body.questXP) || 1
+
+    // Get the gameusers data to check the XP
+    const callbackCheckXP = (error, results) => {
         if (error) {
-            console.error("Error createNewuser:", error);
-            if (error.code === 'ER_DUP_ENTRY') {
-                return res.status(409).json({ error: "Quest already exists" });
-            }
-                return res.status(500).json(error);
+            console.error("Error getting user data:" , error);
+            return res.status(500).json(error);
         }
+
+        if (results.length === 0) {
+            return res.status(404).json({message: "Game user not found"});
+        }
+
+        const currentXP = results[0].XP;
+        if (currentXP < xpCost) {
+            return res.status(400).json({message: `Insufficient XP. You have ${currentXP} XP`})
+        }
+        
+        const data = {
+            title: req.body.questTitle,
+            description: req.body.questDescription,
+            xp_reward: req.body.questXP,
+            recommended_rank: req.body.questDifficulty,
+            creator_id: userId
+        }
+
+        const callbackCreateQuest = (error2) => {
+            if (error2) {
+                console.error("Error createNewuser:", error2);
+                if (error2.code === 'ER_DUP_ENTRY') {
+                    return res.status(409).json({ error: "Quest already exists" });
+                }
+                return res.status(500).json(error2);
+            }
+        }
+
+        const newXP = currentXP - xpCost;
+        const callbackDeductXP = (error3, results3) => {
+            if (error3) {
+                console.error("Error deducting XP:", error3);
+                return res.status(500).json({message: "Quest created but failed to deduct XP. Please try again"})
+            }
+            console.log("XP deducted.", results3)
             res.status(201).json({
                 id: results.insertId,
                 title: data.title,
                 description: data.description,
                 xp_reward: data.xp_reward,
                 difficulty: data.recommended_rank,
+                newXP: newXP,
                 message: "Quest created successfully"
             });
-    }
+            model.deductUserXp({user_id: userId, xp_amount: xpCost}, callbackDeductXP);
+        };
+        model.insertQuest(data, callbackCreateQuest);
+    };
+    gameUserModel.selectByUserId({user_id: userId}, callbackCheckXP);
+};
 
-    model.insertQuest(data, callback);
-}
+    
+
 
 
 module.exports.AcceptQuest = (req, res, next) =>
 {
     const data = {
         id: req.params.questId,
-        user_id: req.locals.userid // Take from JWT token
+        user_id: res.locals.userId
     }
 
-    // 
-    // const callbackRemoveComplete = (error, results, fields) => {
-    //     if (error) {
-    //         console.error("Error Removing old complete", error)
-    //     }
-    // }
-
-
-    const callback = (error, results) => {
+    const getGameUserCallback = (error, results) => {
         if (error) {
-            console.error("Error AcceptQuest:", error);
-            if (error.code === 'ER_DUP_ENTRY') {
-                return res.status(409).json({ message: "Quest already started" });
-            } else {
-                return res.status(500).json(error);
-            }
+            console.error("Error getting gameuser:", error);
+            return res.status(500).json(error);
         }
-        res.status(200).json({
-            message: "Quest accepted successfully",
-            quest_id: data.id,
-            user_id: data.user_id
-        });
-    }
-    model.StartingQuest(data, callback);
-}
+        
+        if (results.length === 0) {
+            return res.status(404).json({ message: "Game user not found" });
+        }
 
+        const gameUserId = results[0].id;
+        const questData = {
+            id: data.id,
+            user_id: gameUserId
+        };
+
+        const callback = (error, results) => {
+            if (error) {
+                console.error("Error AcceptQuest:", error);
+                if (error.code === 'ER_DUP_ENTRY') {
+                    return res.status(409).json({ message: "Quest already started" });
+                } else {
+                    return res.status(500).json(error);
+                }
+            }
+            res.status(200).json({
+                message: "Quest accepted successfully",
+                quest_id: questData.id,
+                user_id: questData.user_id
+            });
+        }
+        
+        model.StartingQuest(questData, callback);
+    };
+    gameUserModel.selectByUserId({ user_id: data.user_id }, getGameUserCallback);
+}
 
 module.exports.CompleteQuest = (req, res, next) => {
     const data = {

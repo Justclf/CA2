@@ -78,10 +78,9 @@ bcrypt.hash('1234', saltRounds, (error, hash) => {
       );
 
 
-      INSERT INTO GameUser (user_id, username, user_rank)
+      INSERT INTO GameUser (user_id, username, XP, user_rank)
       VALUES
-      (1, "Sung Jin Woo", "S-Hunter"),
-      (2, "Cha Hae In", "S-Hunter");
+      (1, "Sung Jin Woo", 15000, "S-Hunter");
 
 
       CREATE TABLE Quests (
@@ -89,7 +88,8 @@ bcrypt.hash('1234', saltRounds, (error, hash) => {
       title VARCHAR(100) NOT NULL UNIQUE,
       description VARCHAR(255) NOT NULL,
       xp_reward INT NOT NULL,
-      recommended_rank VARCHAR(20) NOT NULL
+      recommended_rank VARCHAR(20) NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       );
 
       CREATE TABLE QuestStart (

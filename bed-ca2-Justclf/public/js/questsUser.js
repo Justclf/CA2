@@ -44,6 +44,13 @@ function loadUserProfile(token) {
 // Load the quests
 function displayQuests(quests, token) {
     const questsSection = document.querySelector('.quests-section') // selecting the quests-section css
+
+    // remove existing quest if exist
+    let questsList = questsSection.querySelector('.quests-list');
+    if (questsList) {
+        questsList.remove();
+    }
+
     questsList = document.createElement('div') // Create div element
     questsList.className = 'quests-list';
     questsSection.appendChild(questsList);
@@ -165,7 +172,7 @@ function loadQuestCreation(token) {
 
                 if (responseStatus === 201 || responseStatus === 200) {
                     alert("Quest created successfully!");
-                    createForm.reset();
+                    createForm.reset(); // Create and reset the page 
                     loadAllQuests(token);
                     loadUserProfile(token);
                 } else {
@@ -190,6 +197,7 @@ function acceptQuest(questId, token) {
             loadAllQuests(token);
             loadUserProfile(token);
         } else {
+            console.error("Accept quest error:", responseData);
             alert (responseData.message || 'Failed to accept quest. Please try again')
         }
     };

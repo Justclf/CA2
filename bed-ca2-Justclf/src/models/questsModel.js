@@ -49,6 +49,19 @@ module.exports.deleteById = (data, callback) => {
     pool.query(SQLSTATEMENT, VALUES, callback);
 }
 
+// Deduct XP from user when create quest
+module.exports.deductUserXp = (data, callback) => {
+    const SQLSTATEMENT = `
+    UPDATE gameuser
+    SET XP = XP - ? 
+    WHERE user_id = ? AND XP >= ?
+    `;
+
+    const VALUES = [data.xp_amount, data.user_id, data.xp_amount];
+    pool.query(SQLSTATEMENT, VALUES, callback);
+}
+
+
 // Retrieve the xp then store it in controller
 module.exports.GetXpReward = (data, callback) => {
     const SQLSTATEMENT = `
