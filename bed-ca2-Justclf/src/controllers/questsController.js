@@ -15,8 +15,10 @@ module.exports.GetAllQuest = (req, res, next) =>
     model.selectAll(callback);
 }
 
-module.exports.CreateQuest = (req, res) =>
-{
+
+
+
+module.exports.CreateQuest = (req, res, next) => {
     if(!req.body.questTitle || !req.body.questDescription || !req.body.questDifficulty)
     {
         res.status(400).json({message: "Missing required fields"});
@@ -47,36 +49,37 @@ module.exports.CreateQuest = (req, res) =>
             description: req.body.questDescription,
             xp_reward: req.body.questXP,
             recommended_rank: req.body.questDifficulty,
-            creator_id: userId
         }
 
-        const callbackCreateQuest = (error2) => {
+        // create quest first, then deduct xp
+        const callbackCreateQuest = (error2, results2) => {
             if (error2) {
-                console.error("Error createNewuser:", error2);
+                console.error("Error creating quest:", error2);
                 if (error2.code === 'ER_DUP_ENTRY') {
                     return res.status(409).json({ error: "Quest already exists" });
                 }
                 return res.status(500).json(error2);
             }
-        }
 
-        const newXP = currentXP - xpCost;
-        const callbackDeductXP = (error3, results3) => {
-            if (error3) {
-                console.error("Error deducting XP:", error3);
-                return res.status(500).json({message: "Quest created but failed to deduct XP. Please try again"})
-            }
-            console.log("XP deducted.", results3)
-            res.status(201).json({
-                id: results.insertId,
-                title: data.title,
-                description: data.description,
-                xp_reward: data.xp_reward,
-                difficulty: data.recommended_rank,
-                newXP: newXP,
-                message: "Quest created successfully"
-            });
-            model.deductUserXp({user_id: userId, xp_amount: xpCost}, callbackDeductXP);
+            // Right after quest is created, deduct the xp
+            const callbackDeductXP = (error3, results3) => {
+                if (error3) {
+                    console.error("Error deducting XP:", error3);
+                    return res.status(500).json({message: "Quest created but failed to deduct XP. Please try again"})
+                }
+                console.log("XP deducted.", results3)
+                const newXP = currentXP - xpCost;
+                res.status(201).json({
+                    id: results2.insertId,
+                    title: data.title,
+                    description: data.description,
+                    xp_reward: data.xp_reward,
+                    difficulty: data.recommended_rank,
+                    newXP: newXP,
+                    message: "Quest created successfully"
+                });
+            };
+            model.deductUserXP({user_id: userId, xp_amount: xpCost}, callbackDeductXP);
         };
         model.insertQuest(data, callbackCreateQuest);
     };
@@ -84,7 +87,6 @@ module.exports.CreateQuest = (req, res) =>
 };
 
     
-
 
 
 module.exports.AcceptQuest = (req, res, next) =>
@@ -151,8 +153,6 @@ module.exports.CompleteQuest = (req, res, next) => {
     }
     model.finishQuest(data, callback);
 }
-
-
 
 
 module.exports.DeleteQuest = (req, res, next) => {

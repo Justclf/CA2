@@ -28,6 +28,7 @@ bcrypt.hash('1234', saltRounds, (error, hash) => {
       DROP TABLE IF EXISTS QuestCompletion;
       DROP TABLE IF EXISTS GameUser;
       DROP TABLE IF EXISTS Quests;
+      DROP TABLE IF EXISTS Reviews;
 
 
       CREATE TABLE User (
@@ -72,7 +73,7 @@ bcrypt.hash('1234', saltRounds, (error, hash) => {
       id INT AUTO_INCREMENT PRIMARY KEY,
       user_id INT NOT NULL,
       username VARCHAR(255) NOT NULL UNIQUE,
-      XP INT NOT NULL DEFAULT 100,
+      XP INT NOT NULL DEFAULT 0,
       user_rank VARCHAR(20) NOT NULL DEFAULT "E-Hunter",
       FOREIGN KEY (user_id) REFERENCES User(id)
       );
@@ -80,7 +81,7 @@ bcrypt.hash('1234', saltRounds, (error, hash) => {
 
       INSERT INTO GameUser (user_id, username, XP, user_rank)
       VALUES
-      (1, "Sung Jin Woo", 15000, "S-Hunter");
+      (1, "Sung Jin Woo", 20000, "S-Hunter");
 
 
       CREATE TABLE Quests (
@@ -113,6 +114,25 @@ bcrypt.hash('1234', saltRounds, (error, hash) => {
       FOREIGN KEY (user_id)  REFERENCES GameUser(id),
       FOREIGN KEY (quest_id) REFERENCES Quests(id)
       );
+
+
+      CREATE TABLE Reviews (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      rating INT NOT NULL,
+      comment TEXT NOT NULL,
+      user_id INT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES GameUser(id)
+      );
+
+
+      INSERT INTO Reviews (rating, comment, user_id)
+      VALUES
+      (5, "Game is lowkey fun. Would reco to my frens", 1),
+      (4, "Can be better, maybe can add more features?", 1),
+      (5, "Jet2Holiday", 1);
+
+
 
       SET FOREIGN_KEY_CHECKS=1;
       `;

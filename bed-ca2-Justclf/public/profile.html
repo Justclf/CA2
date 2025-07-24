@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Bug Hunter Guild</title>
+    <link rel="stylesheet" href="css/color.css">
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">Bug Hunter Guild</div>
+        <nav class="nav-buttons">
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="quests.html" class="nav-btn">Quests</a>
+            <a href="pvp.html" class="nav-btn">PVP</a>
+            <a href="review.html" class="nav-btn">Review</a>
+            <a href="login.html" class="nav-btn" id="loginButton">Login</a>
+            <a href="register.html" class="nav-btn" id="registerButton">Registration</a>
+            <a href="profile.html" class="nav-btn active d-none" id="profileButton">Profile</a>
+            <a href="#" class="nav-btn d-none" id="logoutButton">Logout</a>
+        </nav>
+    </header>
+
+    <div class="profile-container">
+        <!-- Hunter Profile Card -->
+        <div class="hunter-card">
+            <h1 class="hunter-name" id="hunterName"></h1>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="currentXP">0</div>
+                    <div class="stat-label">Experience Points</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="currentRank">E-Hunter</div>
+                    <div class="stat-label">Current Rank</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="questsCompleted">0</div>
+                    <div class="stat-label">Quests Completed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <h2 class="section-title">Hunter Progress</h2>
+            <div class="xp-progress">
+                <div class="xp-info">
+                    <span>Level Progress</span>
+                    <span id="xpProgress"></span> <!-- Replace with dynamic js to count XP -->
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievements Section -->
+        <div class="achievements-section">
+            <h2 class="section-title">Hunter Achievements</h2>
+            <div class="achievements-grid">
+                <div class="achievement-badge unlocked">
+                    <div class="achievement-name">First Steps</div>
+                    <div class="achievement-description">Created your account</div>
+                </div>
+                <div class="achievement-badge locked" id="firstQuestBadge"> <!-- getElementId link thru here -->
+                    <div class="achievement-name">First Quest</div>
+                    <div class="achievement-description">Complete your first quest</div>
+                </div>
+                <div class="achievement-badge locked" id="xp100Badge">
+                    <div class="achievement-name">Rising Up</div>
+                    <div class="achievement-description">Reach 100 XP</div>
+                </div>
+                <div class="achievement-badge locked" id="rankUpBadgeDTier">
+                    <div class="achievement-name">Rising Hunter</div>
+                    <div class="achievement-description">Reach D-Hunter rank</div>
+                </div>
+                <div class="achievement-badge locked" id="rankUpBadgeCTier">
+                    <div class="achievement-name">Intemediate Hunter</div>
+                    <div class="achievement-description">Reach C-Rank</div>
+                </div>
+                <div class="achievement-badge locked" id="rankUpBadgeBTier">
+                    <div class="achievement-name">Veteran Hunter</div>
+                    <div class="achievement-description">Reach B-Rank</div>
+                </div>
+                <div class="achievement-badge locked" id="rankUpBadgeATier">
+                    <div class="achievement-name">Abnormal Hunter</div>
+                    <div class="achievement-description">Reach A-Rank</div>
+                </div>
+                <div class="achievement-badge locked" id="rankUpBadgeSTier">
+                    <div class="achievement-name">Shadow Hunter</div>
+                    <div class="achievement-description">Reach S-Rank</div>
+                </div>
+                <div class="achievement-badge locked" id="">
+                    <div class="achievement-name">Quest Creator</div>
+                    <div class="achievement-description">Create your first quest</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/getCurrentURL.js"></script>
+    <script src="js/userNavbarToggle.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

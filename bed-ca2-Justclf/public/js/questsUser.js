@@ -161,8 +161,8 @@ function loadQuestCreation(token) {
                 return;
             }
              
-            if(data.questXP < 1 || data.questXP > 100) {
-                alert('XP reward must be between 1 and 100');
+            if(data.questXP < 1 || data.questXP > 500) {
+                alert('XP reward must be between 1 and 500');
                 return;
             }
 
@@ -171,7 +171,7 @@ function loadQuestCreation(token) {
                 console.log("Create quest responseData:", responseData);
 
                 if (responseStatus === 201 || responseStatus === 200) {
-                    alert("Quest created successfully!");
+                    alert(responseData.message || "Quest created successfully!");
                     createForm.reset(); // Create and reset the page 
                     loadAllQuests(token);
                     loadUserProfile(token);
@@ -203,6 +203,7 @@ function acceptQuest(questId, token) {
     };
     fetchMethod(currentUrl + `/api/quests/${questId}/accept`, callback, "POST", data, token)
 }
+
 
 
 // Delete the quest

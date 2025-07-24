@@ -50,7 +50,7 @@ module.exports.deleteById = (data, callback) => {
 }
 
 // Deduct XP from user when create quest
-module.exports.deductUserXp = (data, callback) => {
+module.exports.deductUserXP = (data, callback) => {
     const SQLSTATEMENT = `
     UPDATE gameuser
     SET XP = XP - ? 
@@ -93,6 +93,9 @@ module.exports.StartingQuest = (data, callback) => {
     const VALUES = [data.user_id, data.id];
     pool.query(SQLSTATEMENT, VALUES, callback);
 }
+
+
+
 
 module.exports.finishQuest = (data, callback) => {
     const SQLSTATEMENT_GET_GAMEUSER = `

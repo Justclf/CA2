@@ -6,16 +6,17 @@ const bcryptMiddleware = require('../middlewares/bcryptMiddleware');
 const userController = require('../controllers/userController')
 const questsController = require('../controllers/questsController');
 const QuestsRoutes = require('./QuestsRoutes')
+const reviewRoutes = require('./reviewRoutes')
 
 
 router.use("/quests", QuestsRoutes)
+router.use("/review", reviewRoutes)
 
-// User profile route (protected)
 router.get("/profile", jwtMiddleware.verifyToken, questsController.GetUserProfile);
 
 
 router.post("/login", userController.login, bcryptMiddleware.comparePassword, jwtMiddleware.generateToken, jwtMiddleware.sendToken);
-router.post("/register", userController.checkUsernameOrEmailExist, bcryptMiddleware.hashPassword, userController.register, userController.createGameUser, jwtMiddleware.generateToken, jwtMiddleware.sendToken);
+router.post("/register", userController.checkUsernameOrEmailExist, bcryptMiddleware.hashPassword, userController.register, userController.createGameUser, userController.createDefaultQuest, jwtMiddleware.generateToken, jwtMiddleware.sendToken);
 router.post("/jwt/generate", jwtMiddleware.generateToken, jwtMiddleware.sendToken);
 router.get("/jwt/verify", jwtMiddleware.verifyToken);
 router.post("/bcrypt/compare", bcryptMiddleware.comparePassword);
