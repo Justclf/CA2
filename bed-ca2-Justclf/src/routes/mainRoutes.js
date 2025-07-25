@@ -10,7 +10,7 @@ const reviewRoutes = require('./reviewRoutes')
 
 
 router.use("/quests", QuestsRoutes)
-router.use("/review", reviewRoutes)
+router.use("/reviews", reviewRoutes)
 
 router.get("/profile", jwtMiddleware.verifyToken, questsController.GetUserProfile);
 

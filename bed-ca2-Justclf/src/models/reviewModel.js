@@ -1,10 +1,12 @@
-const { values } = require('../configs/levels');
 const pool = require('../services/db');
 
-module.exports.selectALL = (callback) => {
+module.exports.selectAll = (callback) => {
     const SQLSTATEMENT = `
-    SELECT rating, comment, created_at 
-    FROM review 
+    SELECT r.id, r.rating, r.comment, r.created_at, r.user_id, gu.username
+    FROM Reviews r
+    JOIN gameuser gu 
+    ON r.user_id = g.id
+    ORDER BY r.created_at DESC
     `;
     
     pool.query(SQLSTATEMENT, callback);
@@ -25,7 +27,7 @@ module.exports.insertSingle = (data, callback) => {
 module.exports.updateById = (data, callback) => {
     const SQLSTATEMENT = `
     UPDATE Reviews
-    SET rating = ?, comment =?
+    SET rating = ?, comment = ?
     WHERE id = ? AND user_id = ?;
     `;
 

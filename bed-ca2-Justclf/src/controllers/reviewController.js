@@ -12,12 +12,7 @@ module.exports.createReview = (req, res, next) => {
     }
 
     const userId = res.locals.userId;
-    const gameUserId = results[0].id;
-    const data = {
-        rating: req.body.rating,
-        comment: req.body.comment,
-        user_id: gameUserId
-    }
+
 
 
     const callbackgameuser = (error, results) => {
@@ -29,6 +24,12 @@ module.exports.createReview = (req, res, next) => {
             return res.status(404).json({message: "Game user not found"})
         }
 
+        const gameUserId = results[0].id;
+        const data = {
+            rating: req.body.rating,
+            comment: req.body.comment,
+            user_id: gameUserId
+        }
 
 
         const callback = (error2, results2) => {
@@ -65,13 +66,7 @@ module.exports.updateReviewById = (req, res, next) => {
     }
 
     const userId = res.locals.userId;
-    const gameUserId = results[0].id;
-    const data = {
-        id: req.params.id,
-        rating: req.body.rating,
-        comment: req.body.comment,
-        user_id:gameUserId
-    }
+
 
     const callbackgameuser = (error, results) => {
         if (error) {
@@ -82,6 +77,13 @@ module.exports.updateReviewById = (req, res, next) => {
             return res.status(404).json({message: "Game user not found"})
         }
 
+        const gameUserId = results[0].id;
+        const data = {
+            id: req.params.id,
+            rating: req.body.rating,
+            comment: req.body.comment,
+            user_id:gameUserId
+        }
         
 
         const callback = (error2, results2) => {
@@ -100,10 +102,7 @@ module.exports.deleteReviewById = (req, res, next) => {
     const userId = res.locals.userId;
 
     const gameUserId = results[0].id
-    const data = {
-        id: req.params.id,
-        user_id:gameUserId
-    }
+
 
     const callbackgameuser = (error, results) => {
         if (error) {
@@ -112,6 +111,11 @@ module.exports.deleteReviewById = (req, res, next) => {
         }
         if (results.length === 0) {
             return res.status(404).json({message: "Game user not found"})
+        }
+
+        const data = {
+            id: req.params.id,
+            user_id:gameUserId
         }
 
         const callback = (error2, results2) => {
