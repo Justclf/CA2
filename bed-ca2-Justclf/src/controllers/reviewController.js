@@ -88,8 +88,11 @@ module.exports.updateReviewById = (req, res, next) => {
 
         const callback = (error2, results2) => {
             if (error2) {
-                console.error ("Error creating review:", error2);
+                console.error ("Error updating review:", error2);
                 return res.status(500).json(error2)
+            }
+            if (results.length === 0) {
+                return res.status(404).json({message: "Game user not found"})
             }
             res.status(200).json({message: "Reviews updated"});
         }
@@ -101,9 +104,6 @@ module.exports.updateReviewById = (req, res, next) => {
 module.exports.deleteReviewById = (req, res, next) => {
     const userId = res.locals.userId;
 
-    const gameUserId = results[0].id
-
-
     const callbackgameuser = (error, results) => {
         if (error) {
             console.error("Error getting gameuser:", error);
@@ -113,6 +113,7 @@ module.exports.deleteReviewById = (req, res, next) => {
             return res.status(404).json({message: "Game user not found"})
         }
 
+        const gameUserId = results[0].id
         const data = {
             id: req.params.id,
             user_id:gameUserId

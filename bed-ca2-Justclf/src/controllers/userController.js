@@ -30,6 +30,7 @@ module.exports.login = (req, res, next) =>
         // Add these two lines** so comparePassword has the data it needs
         res.locals.hash   = user.password; // .hash because it is the name we chose at bcryptMiddleware.js
         res.locals.userId = user.id;
+        res.locals.username = user.username;
         console.log("res.locals.userId", res.locals.userId)
         next();
 

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Bug Hunter Guild</title>
+    <title>Current Quests - Bug Hunter Guild</title>
     <link rel="stylesheet" href="css/color.css">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/questsProgress.css">
 </head>
-<body class="login-page">
+<body class="quest-progress-page">
     <!-- Background Animation -->
     <div class="bg-animation"></div>
     
@@ -17,7 +17,7 @@
         <nav class="nav-buttons">
             <a href="index.html" class="nav-btn">Home</a>
             <a href="quests.html" class="nav-btn">Quests</a>
-            <a href="questsProgress.html" class="nav-btn">Current Quests</a>
+            <a href="questsProgress.html" class="nav-btn active">Current Quests</a>
             <a href="pvp.html" class="nav-btn">PVP</a>
             <a href="review.html" class="nav-btn">Review</a>
             <a href="login.html" class="nav-btn" id="loginButton">Login</a>
@@ -28,32 +28,16 @@
     </header>
 
     <div class="container">
-        <div class="login-container">
-            <h1 class="login-title">Login</h1>
-
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-
-                <button type="submit" class="login-btn">Login</button>
-            </form>
-
-            <div class="register-link">
-                Don't have an account? <a href="register.html">Sign Up Here</a>
+        <div class="current-quests-section">
+            <h2 class="section-title">Your Current Quests</h2>
+            <p class="section-subtitle">Complete these quests to earn XP and advance your hunter rank</p>
+            <div class="quests-list" id="currentQuestsList">
             </div>
         </div>
     </div>
 
-    <!-- Floating Particles -->
     <script src="js/getCurrentURL.js"></script>
     <script src="js/userNavbarToggle.js"></script>
-    <script src="js/loginUser.js"></script>
+    <script src="js/questsProgress.js"></script>
 </body>
 </html>

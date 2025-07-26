@@ -128,9 +128,7 @@ bcrypt.hash('1234', saltRounds, (error, hash) => {
 
       INSERT INTO Reviews (rating, comment, user_id)
       VALUES
-      (5, "Game is lowkey fun. Would reco to my frens", 1),
-      (4, "Can be better, maybe can add more features?", 1),
-      (5, "Jet2Holiday", 1);
+      (5, "Game is lowkey fun. Would reco to my frens", 1);
 
 
 

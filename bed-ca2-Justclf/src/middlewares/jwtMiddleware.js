@@ -9,6 +9,7 @@ const tokenAlgorithm = process.env.JWT_ALGORITHM;
 module.exports.generateToken = (req, res, next) => {
     const payload = {
     userId: res.locals.userId,
+    username: res.locals.username,
     timestamp: new Date()
   };
 

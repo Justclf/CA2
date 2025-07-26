@@ -545,6 +545,8 @@ body.quest-page {
     animation: bgMove 20s linear infinite;
 }
 
+
+
 @keyframes bgMove {
     0% { transform: translateX(0) translateY(0); }
     100% { transform: translateX(-10px) translateY(-10px); }

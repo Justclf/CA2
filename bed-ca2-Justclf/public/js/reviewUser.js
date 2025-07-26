@@ -10,17 +10,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Load existing reviews
+    // load all review even when not logged in
     loadAllReviews();
     
-    // Set up review form if user is logged in
+    // Use this when giving reviews
     if (token) {
         setupReviewForm(token);
         setupStarRating();
     }
 });
 
-// Load all reviews
+
+
+
+// load all reviews
 function loadAllReviews() {
     const callback = (responseStatus, responseData) => {
         console.log("Reviews responseStatus:", responseStatus);
@@ -31,32 +34,44 @@ function loadAllReviews() {
             updateReviewStats(responseData);
         } else {
             console.error("Failed to load reviews:", responseData);
-            showNoReviews("Failed to load reviews. Please try again.");
+            // showNoReviews("Failed to load reviews. Please try again.");
         }
     }
     fetchMethod(currentUrl + "/api/reviews", callback, "GET", null, null);
 }
 
-// Display reviews
+// display reviews
 function displayReviews(reviews) {
-    const reviewsList = document.getElementById('reviewsList');
+    const reviewsList = document.getElementById('reviewsList'); // Link with the HTML thru here
     
     if (!reviews || reviews.length === 0) {
         showNoReviews("No reviews yet. Be the first hunter to share your experience!");
         return;
     }
     
-    reviewsList.innerHTML = reviews.map(review => {
-        const reviewDate = new Date(review.created_at).toLocaleDateString('en-US', {
+    const token = localStorage.getItem('token');
+    let currentUserId = null;
+
+    if (token) { // ai
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            currentUserId = payload.userId;
+        } catch (e) {
+            console.log("Error reading token:", e);
+        }
+    }
+
+    reviewsList.innerHTML = reviews.map(review => { // review is passed as an array and loops thru each review object and returns an array of HTML strings
+        const reviewDate = new Date(review.created_at).toLocaleDateString('en-US', { // take the time in review.created_at.
             year: 'numeric',
             month: 'long',
             day: 'numeric'
         });
         
-        const isCurrentUser = getCurrentUsername() === review.username;
+        const amCurrentUser = currentUserId && review.user_id === currentUserId;
         
         return `
-            <div class="review-item ${isCurrentUser ? 'current-user' : ''}" data-id="${review.id}">
+            <div class="review-item ${amCurrentUser ? 'current-user' : ''}" data-id="${review.id}"> <!-- Creates a <div> for each review with class "review-item" (adding "current-user" if its the current users) and embeds its ID in data-id -->
                 <div class="review-header">
                     <div class="reviewer-info">
                         <div class="reviewer-name">${review.username}</div>
@@ -64,7 +79,7 @@ function displayReviews(reviews) {
                             ${generateStarDisplay(review.rating)}
                         </div>
                     </div>
-                    ${isCurrentUser ? `
+                    ${amCurrentUser ? `
                         <div class="review-actions">
                             <button class="edit-btn" onclick="editReview(${review.id}, ${review.rating}, '${review.comment}')">Edit</button>
                             <button class="delete-btn" onclick="deleteReview(${review.id})">Delete</button>
@@ -78,7 +93,7 @@ function displayReviews(reviews) {
     }).join('');
 }
 
-// Generate star display
+// Generate star display AI
 function generateStarDisplay(rating) {
     let stars = '';
     for (let i = 1; i <= 5; i++) {
@@ -94,14 +109,14 @@ function generateStarDisplay(rating) {
 // Update review statistics
 function updateReviewStats(reviews) {
     const totalReviews = reviews.length;
-    const avgRating = totalReviews > 0 ? 
-        (reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews).toFixed(1) : 
-        '0.0';
+    const avgRating = totalReviews > 0 ? // If theres more than one review, do the calculation. Else show 0.0
+        (reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews).toFixed(1) : '0.0'; // sum up all the reviews.rating values from 0, then divide them by totalReviews
+
 
     document.querySelector('.avg-number').textContent = avgRating;
-    document.querySelector('.total-reviews').textContent = `${totalReviews} review${totalReviews !== 1 ? 's' : ''}`;
+    document.querySelector('.total-reviews').textContent = `${totalReviews} reviews`; // show how many reviews 
 
-    // Update average stars display
+    // Update average stars display AI
     const avgStars = document.querySelectorAll('.avg-stars .star');
     const rating = parseFloat(avgRating);
     avgStars.forEach((star, index) => {
@@ -113,7 +128,7 @@ function updateReviewStats(reviews) {
     });
 }
 
-// Show no reviews message
+// // if no review 
 function showNoReviews(message) {
     const reviewsList = document.getElementById('reviewsList');
     reviewsList.innerHTML = `<div class="no-reviews"><p>${message}</p></div>`;
@@ -164,7 +179,7 @@ function setupReviewForm(token) {
     }
 }
 
-// Set up star rating
+// choosing the star rating
 function setupStarRating() {
     const stars = document.querySelectorAll('.star-rating .star');
     
@@ -180,55 +195,9 @@ function setupStarRating() {
             highlightStars(hoverValue);
         });
     });
-    
-    // Reset on mouse leave
-    document.querySelector('.star-rating').addEventListener('mouseleave', function() {
-        const currentRating = getSelectedRating();
-        highlightStars(currentRating);
-    });
 }
 
-// Set star rating
-function setStarRating(rating) {
-    const stars = document.querySelectorAll('.star-rating .star');
-    stars.forEach((star, index) => {
-        if (index < rating) {
-            star.classList.add('active');
-        } else {
-            star.classList.remove('active');
-        }
-    });
-}
 
-// Highlight stars
-function highlightStars(rating) {
-    const stars = document.querySelectorAll('.star-rating .star');
-    stars.forEach((star, index) => {
-        if (index < rating) {
-            star.classList.add('active');
-        } else {
-            star.classList.remove('active');
-        }
-    });
-}
-
-// Get selected rating
-function getSelectedRating() {
-    const activeStars = document.querySelectorAll('.star-rating .star.active');
-    return activeStars.length;
-}
-
-// Update rating text
-function updateRatingText(rating) {
-    const ratingText = document.querySelector('.rating-text');
-    ratingText.textContent = `You rated: ${rating} star${rating !== 1 ? 's' : ''}`;
-}
-
-// Reset star rating
-function resetStarRating() {
-    setStarRating(0);
-    document.querySelector('.rating-text').textContent = 'Click on a star to rate!';
-}
 
 // Edit review
 function editReview(reviewId, currentRating, currentComment) {
@@ -244,9 +213,6 @@ function editReview(reviewId, currentRating, currentComment) {
         e.preventDefault();
         updateReview(reviewId);
     };
-    
-    // Scroll to form
-    document.querySelector('.review-form-container').scrollIntoView({ behavior: 'smooth' });
 }
 
 // Update review
@@ -309,7 +275,7 @@ function deleteReview(reviewId) {
     fetchMethod(currentUrl + `/api/reviews/${reviewId}`, callback, "DELETE", null, token);
 }
 
-// Reset review form
+// reset the review form
 function resetReviewForm() {
     const reviewForm = document.getElementById('reviewForm');
     reviewForm.reset();
@@ -320,18 +286,44 @@ function resetReviewForm() {
     submitBtn.onclick = null;
 }
 
-// Get current username (you'll need to implement this based on your auth system)
-function getCurrentUsername() {
-    // This is a simple implementation - you might want to decode the JWT token
-    // or make an API call to get the current user's username
-    const token = localStorage.getItem('token');
-    if (token) {
-        try {
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            return payload.username; // Adjust based on your JWT structure
-        } catch (e) {
-            return null;
+
+// reset star rating when you submit
+function resetStarRating() {
+    setStarRating(0);
+}
+
+// set the star rating
+function setStarRating(rating) {
+    const stars = document.querySelectorAll('.star-rating .star');
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.add('active');
+        } else {
+            star.classList.remove('active');
         }
-    }
-    return null;
+    });
+}
+
+// highlight the stars when u hover them
+function highlightStars(rating) {
+    const stars = document.querySelectorAll('.star-rating .star');
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.classList.add('active');
+        } else {
+            star.classList.remove('active');
+        }
+    });
+}
+
+// get the selected rating
+function getSelectedRating() {
+    const activeStars = document.querySelectorAll('.star-rating .star.active');
+    return activeStars.length;
+}
+
+// show the rating text when u submit
+function updateRatingText(rating) {
+    const ratingText = document.querySelector('.rating-text');
+    ratingText.textContent = `You rated: ${rating} star`;
 }

@@ -82,7 +82,7 @@ function createQuestCard(quest, token) {
     const isOwnQuest = quest.isOwner || false;
 
     const questDiv = document.createElement('div');
-    questDiv.className = `quest-card ${isOwnQuest ? 'own-quest' : ''}`; // quest-card.own-quest, ai 
+    questDiv.className = `quest-card ${isOwnQuest ? 'own-quest' : ''}`; // quest-card.own-quest 
 
     questDiv.innerHTML = `
         <div class="quest-header">
@@ -161,7 +161,7 @@ function loadQuestCreation(token) {
                 return;
             }
              
-            if(data.questXP < 1 || data.questXP > 500) {
+            if(data.questXP < 100 || data.questXP > 9999) { // set xp here
                 alert('XP reward must be between 1 and 500');
                 return;
             }

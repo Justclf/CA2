@@ -5,7 +5,7 @@ module.exports.selectAll = (callback) => {
     SELECT r.id, r.rating, r.comment, r.created_at, r.user_id, gu.username
     FROM Reviews r
     JOIN gameuser gu 
-    ON r.user_id = g.id
+    ON r.user_id = gu.id
     ORDER BY r.created_at DESC
     `;
     
@@ -28,8 +28,9 @@ module.exports.updateById = (data, callback) => {
     const SQLSTATEMENT = `
     UPDATE Reviews
     SET rating = ?, comment = ?
-    WHERE id = ? AND user_id = ?;
+    WHERE id = ? AND user_id = ?; 
     `;
+// Enforece editing if id and user_id matches
 
     const VALUES = [data.rating, data.comment, data.id, data.user_id]
     pool.query(SQLSTATEMENT, VALUES, callback)
