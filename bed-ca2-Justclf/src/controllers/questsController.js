@@ -16,8 +16,6 @@ module.exports.GetAllQuest = (req, res, next) =>
 }
 
 
-
-
 module.exports.CreateQuest = (req, res, next) => {
     if(!req.body.questTitle || !req.body.questDescription || !req.body.questDifficulty)
     {
@@ -207,4 +205,35 @@ module.exports.GetUserProfile = (req, res, next) => {
     }
 
     gameUserModel.selectByUserId({ user_id: userId }, callback);
+}
+
+module.exports.GetCurrentQuests = (req, res, next) => {
+    const userId = res.locals.userId; // From JWT token
+
+    // First get the gameuser ID
+    const getGameUserCallback = (error, results) => {
+        if (error) {
+            console.error("Error getting gameuser:", error);
+            return res.status(500).json(error);
+        }
+        
+        if (results.length === 0) {
+            return res.status(404).json({ message: "Game user not found" });
+        }
+
+        const gameUserId = results[0].id;
+
+        // Now get current quests for this gameuser
+        const callback = (error, results) => {
+            if (error) {
+                console.error("Error GetCurrentQuests:", error);
+                return res.status(500).json(error);
+            }
+            res.status(200).json(results);
+        }
+
+        model.GetCurrentQuests({ user_id: gameUserId }, callback);
+    };
+
+    gameUserModel.selectByUserId({ user_id: userId }, getGameUserCallback);
 }

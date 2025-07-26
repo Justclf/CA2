@@ -7,10 +7,11 @@ const userController = require('../controllers/userController')
 const questsController = require('../controllers/questsController');
 const QuestsRoutes = require('./QuestsRoutes')
 const reviewRoutes = require('./reviewRoutes')
-
+const questsProgressRoutes = require('./questsProgressRoutes')
 
 router.use("/quests", QuestsRoutes)
 router.use("/reviews", reviewRoutes)
+router.use("/progress", questsProgressRoutes)
 
 router.get("/profile", jwtMiddleware.verifyToken, questsController.GetUserProfile);
 

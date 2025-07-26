@@ -1,4 +1,4 @@
-// Simple questsProgress.js - Just show and complete current quests
+// questsProgress.js - Using separate progress system
 document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
 
@@ -8,31 +8,25 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // Load current quests
     loadCurrentQuests(token);
 });
 
-// Load only current quests (started or completed)
 function loadCurrentQuests(token) {
     const callback = (responseStatus, responseData) => {
         console.log("Current quests loaded:", responseStatus, responseData);
         
         if (responseStatus === 200) {
-            // Filter to show only current quests
-            const currentQuests = responseData.filter(quest => 
-                quest.status === 'started' || quest.status === 'completed'
-            );
-            
-            displayCurrentQuests(currentQuests, token);
+            displayCurrentQuests(responseData, token);
         } else {
-            console.error("Failed to load quests:", responseData);
+            console.error("Failed to load current quests:", responseData);
             showNoQuests("Failed to load your current quests.");
         }
     }
-    fetchMethod(currentUrl + "/api/quests", callback, "GET", null, token);
+    
+    // Use SEPARATE progress endpoint
+    fetchMethod(currentUrl + "/api/progress/current", callback, "GET", null, token);
 }
 
-// Display current quests
 function displayCurrentQuests(quests, token) {
     const questsList = document.getElementById('currentQuestsList');
     
@@ -44,7 +38,11 @@ function displayCurrentQuests(quests, token) {
     questsList.innerHTML = quests.map(quest => createCurrentQuestCard(quest, token)).join('');
 }
 
-// Create quest card for current quests - similar to regular quest card but with complete button
+function showNoQuests(message) {
+    const questsList = document.getElementById('currentQuestsList');
+    questsList.innerHTML = `<div class="no-quests"><p>${message}</p></div>`;
+}
+
 function createCurrentQuestCard(quest, token) {
     const difficultyRankMap = {
         'Beginner': 'E-Rank',
@@ -93,26 +91,26 @@ function createCurrentQuestCard(quest, token) {
             <div class="quest-actions">
                 ${quest.status === 'started' ? 
                     `<button class="complete-btn" onclick="completeQuest('${quest.id}', '${token}')">Complete Quest</button>` :
-                    `<button class="completed-btn" disabled>Quest Completed ✓</button>`
+                    `<button class="completed-btn" disabled style="background: #28a745; cursor: not-allowed;">Quest Completed</button>`
                 }
             </div>
         </div>
     `;
 }
 
-// Complete quest function - same as accept but for completing
 function completeQuest(questId, token) {
     const callback = (responseStatus, responseData) => {
         console.log("Complete quest result:", responseStatus, responseData);
         
         if (responseStatus === 200) {
-            alert(`Quest completed! You earned ${responseData.xp} XP. Your new rank: ${responseData.rank}`);
-            loadCurrentQuests(token);  // Refresh the quest list
+            alert(`Quest completed! You earned XP. New rank: ${responseData.rank}`);
+            loadCurrentQuests(token);
         } else {
             console.error("Failed to complete quest:", responseData);
             alert(responseData.message || 'Failed to complete quest. Please try again');
         }
     };
     
-    fetchMethod(currentUrl + `/api/quests/${questId}/complete`, callback, "POST", {}, token);
+    // Use SEPARATE progress endpoint for completing
+    fetchMethod(currentUrl + `/api/progress/${questId}/complete`, callback, "POST", {}, token);
 }

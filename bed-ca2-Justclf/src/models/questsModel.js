@@ -190,3 +190,30 @@ module.exports.finishQuest = (data, callback) => {
     });
 });
 }
+
+module.exports.GetCurrentQuests = (data, callback) => {
+    const SQLSTATEMENT = `
+    SELECT q.id, q.title, q.description, q.xp_reward, q.recommended_rank, q.created_at,
+    CASE
+        WHEN qc.quest_id IS NOT NULL THEN 'completed'
+        WHEN qs.quest_id IS NOT NULL THEN 'started'
+        ELSE 'available'
+    END as status,
+    qs.started_at,
+    qc.completed_at
+    FROM quests q
+    LEFT JOIN QuestStart qs
+        ON q.id = qs.quest_id AND qs.user_id = ?
+    LEFT JOIN QuestCompletion qc 
+        ON q.id = qc.quest_id AND qc.user_id = ?
+    WHERE qs.quest_id IS NOT NULL OR qc.quest_id IS NOT NULL
+    ORDER BY 
+    CASE
+        WHEN qc.quest_id IS NOT NULL THEN qc.completed_at
+        WHEN qs.quest_id IS NOT NULL THEN qs.started_at
+    END DESC;
+    `;
+
+    const VALUES = [data.user_id, data.user_id];
+    pool.query(SQLSTATEMENT, VALUES, callback)
+}
