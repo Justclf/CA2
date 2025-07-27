@@ -3,6 +3,7 @@ const router = express.Router();
 const controller = require('../controllers/questsController');
 const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
+// show the quest that the user has accepted
 router.get("/current", jwtMiddleware.verifyToken, controller.GetCurrentQuests);
 
 router.post("/:id/complete", jwtMiddleware.verifyToken, controller.CompleteQuest);

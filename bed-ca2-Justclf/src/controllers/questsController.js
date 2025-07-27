@@ -2,17 +2,43 @@ const model = require("../models/questsModel.js");
 const gameUserModel = require("../models/GameUsersModel.js")
 
 
-module.exports.GetAllQuest = (req, res, next) =>
-{
-    const callback = (error, results, fields) => {
-        if (error) {
-            console.error("Error GetAllQuest:", error);
-            res.status(500).json(error);
-        } 
-        else res.status(200).json(results);
+module.exports.GetAllQuest = (req, res, next) => {
+    // Get userId from token if available
+    const userId = res.locals.userId;
+    
+    if (!userId) {
+        // No user logged in, return empty array
+        return res.status(200).json([]);
     }
 
-    model.selectAll(callback);
+    // Get gameuser first
+    const gameUserModel = require("../models/GameUsersModel.js");
+    
+    const getGameUserCallback = (error, results) => {
+        if (error) {
+            console.error("Error getting gameuser:", error);
+            return res.status(500).json(error);
+        }
+        
+        if (results.length === 0) {
+            return res.status(404).json({ message: "Game user not found" });
+        }
+
+        const gameUserId = results[0].id;
+
+        // Get available quests for this user
+        const callback = (error, results) => {
+            if (error) {
+                console.error("Error GetAllQuest:", error);
+                return res.status(500).json(error);
+            }
+            res.status(200).json(results);
+        }
+
+        model.selectAvailableForUser({ gameuser_id: gameUserId }, callback);
+    };
+
+    gameUserModel.selectByUserId({ user_id: userId }, getGameUserCallback);
 }
 
 
@@ -84,8 +110,6 @@ module.exports.CreateQuest = (req, res, next) => {
     gameUserModel.selectByUserId({user_id: userId}, callbackCheckXP);
 };
 
-    
-
 
 module.exports.AcceptQuest = (req, res, next) =>
 {
@@ -131,26 +155,26 @@ module.exports.AcceptQuest = (req, res, next) =>
     gameUserModel.selectByUserId({ user_id: data.user_id }, getGameUserCallback);
 }
 
-module.exports.CompleteQuest = (req, res, next) => {
-    const data = {
-        user_id: res.locals.userId,
-        id: req.params.id
-    }
-
-    const callback = (error, results) => {
-        if (error) {
-            console.error("Error Completing Quest:", error);
-            return res.status(500).json(error);
-        }
-        res.status(200).json({
-            message: "Quest completed successfully",
-            xp: results.xp,
-            rank: results.rank,
-            nextXp: results.nextXp
-        })
-    }
-    model.finishQuest(data, callback);
-}
+// module.exports.CompleteQuest = (req, res, next) => {
+//     const data = {
+//         user_id: res.locals.userId,
+//         id: req.params.id
+//     }
+// 
+//     const callback = (error, results) => {
+//         if (error) {
+//             console.error("Error Completing Quest:", error);
+//             return res.status(500).json(error);
+//         }
+//         res.status(200).json({
+//             message: "Quest completed successfully",
+//             xp: results.xp,
+//             rank: results.rank,
+//             nextXp: results.nextXp
+//         })
+//     }
+//     model.finishQuest(data, callback);
+// }
 
 
 module.exports.DeleteQuest = (req, res, next) => {
@@ -206,6 +230,9 @@ module.exports.GetUserProfile = (req, res, next) => {
 
     gameUserModel.selectByUserId({ user_id: userId }, callback);
 }
+
+
+
 
 module.exports.GetCurrentQuests = (req, res, next) => {
     const userId = res.locals.userId; // From JWT token
