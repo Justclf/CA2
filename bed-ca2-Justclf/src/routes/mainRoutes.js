@@ -8,11 +8,13 @@ const questsController = require('../controllers/questsController');
 const QuestsRoutes = require('./QuestsRoutes')
 const reviewRoutes = require('./reviewRoutes')
 const questsProgressRoutes = require('./questsProgressRoutes')
+const reportRoutes = require('./reportRoutes')
+
 
 router.use("/quests", QuestsRoutes)
 router.use("/reviews", reviewRoutes)
 router.use("/progress", questsProgressRoutes)
-
+router.use("/reports", reportRoutes)
 router.get("/profile", jwtMiddleware.verifyToken, questsController.GetUserProfile);
 
 

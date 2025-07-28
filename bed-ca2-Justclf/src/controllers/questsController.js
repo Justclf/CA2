@@ -14,7 +14,7 @@ module.exports.GetAllQuest = (req, res, next) => {
     // Get gameuser first
     const gameUserModel = require("../models/GameUsersModel.js");
     
-    const getGameUserCallback = (error, results) => {
+    const callbackgetgameuser = (error, results) => {
         if (error) {
             console.error("Error getting gameuser:", error);
             return res.status(500).json(error);
@@ -38,7 +38,7 @@ module.exports.GetAllQuest = (req, res, next) => {
         model.selectAvailableForUser({ gameuser_id: gameUserId }, callback);
     };
 
-    gameUserModel.selectByUserId({ user_id: userId }, getGameUserCallback);
+    gameUserModel.selectByUserId({ user_id: userId }, callbackgetgameuser);
 }
 
 
@@ -118,7 +118,7 @@ module.exports.AcceptQuest = (req, res, next) =>
         user_id: res.locals.userId
     }
 
-    const getGameUserCallback = (error, results) => {
+    const callbackgetgameuser = (error, results) => {
         if (error) {
             console.error("Error getting gameuser:", error);
             return res.status(500).json(error);
@@ -152,7 +152,7 @@ module.exports.AcceptQuest = (req, res, next) =>
         
         model.StartingQuest(questData, callback);
     };
-    gameUserModel.selectByUserId({ user_id: data.user_id }, getGameUserCallback);
+    gameUserModel.selectByUserId({ user_id: data.user_id }, callbackgetgameuser);
 }
 
 // module.exports.CompleteQuest = (req, res, next) => {
@@ -238,7 +238,7 @@ module.exports.GetCurrentQuests = (req, res, next) => {
     const userId = res.locals.userId; // From JWT token
 
     // First get the gameuser ID
-    const getGameUserCallback = (error, results) => {
+    const callbackgetgameuser = (error, results) => {
         if (error) {
             console.error("Error getting gameuser:", error);
             return res.status(500).json(error);
@@ -262,5 +262,5 @@ module.exports.GetCurrentQuests = (req, res, next) => {
         model.GetCurrentQuests({ user_id: gameUserId }, callback);
     };
 
-    gameUserModel.selectByUserId({ user_id: userId }, getGameUserCallback);
+    gameUserModel.selectByUserId({ user_id: userId }, callbackgetgameuser);
 }

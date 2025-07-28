@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/reportController');
+const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
-// Verify if the UserId exists, followed by vulnID. Then create report record and link users and vulnerability
-router.post("/", controller.CheckUserId, controller.CheckVulnerabilityId, controller.CreateNewReport, controller.UpdateUserReputation) 
+// submit a vuln
+router.post("/", jwtMiddleware.verifyToken, controller.submitReport);
 
-
-// Check if the report exists first, then check if the user_id exists, lastly to add them both together
-router.put("/:id", controller.CheckReport, controller.CheckCloser, controller.FinishReport)
-
+// show the user reports log
+router.get("/user", jwtMiddleware.verifyToken, controller.getUserReports);
 
 module.exports = router;

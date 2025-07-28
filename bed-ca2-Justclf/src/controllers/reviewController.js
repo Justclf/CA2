@@ -14,7 +14,6 @@ module.exports.createReview = (req, res, next) => {
     const userId = res.locals.userId;
 
 
-
     const callbackgameuser = (error, results) => {
         if (error) {
             console.error("Error getting gameuser:", error);

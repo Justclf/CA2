@@ -14,12 +14,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // load all quests
     loadAllQuests(token);
 
-    // show the quest creation
-    loadQuestCreation(token);
+    // // show the quest creation
+    // loadQuestCreation(token);
 });
 
 
-// Loads the user information in quest page
+// load user info in quest page
 function loadUserProfile(token) {
     const callback = (responseStatus, responseData) => {
         console.log("User profile responseStatus:", responseStatus);
@@ -41,7 +41,7 @@ function loadUserProfile(token) {
 
 
 
-// Load the quests
+// load the quest
 function displayQuests(quests, token) {
     const questsSection = document.querySelector('.quests-section') // selecting the quests-section css
 
@@ -68,6 +68,7 @@ function displayQuests(quests, token) {
 }
 
 
+// create card for others to use
 function createQuestCard(quest, token) {
     const difficultyRankMap = {
         'Beginner': 'E-Rank',
@@ -126,7 +127,7 @@ function createQuestCard(quest, token) {
 }
 
 
-
+// function to show if theres no quest
 function showNoQuests(message) {
     const questsSection = document.querySelector('.quests-section') // link to css
     let questsList = questsSection.querySelector('.quests-list')
@@ -140,52 +141,52 @@ function showNoQuests(message) {
 }
 
 
+// 
+// function loadQuestCreation(token) {
+//     const createForm = document.getElementById('createQuestForm');
+// 
+//     if (createForm) {
+//         createForm.addEventListener('submit', function(event) {
+//             event.preventDefault();
+// 
+//             const data = {
+//                 questTitle: document.getElementById('questTitle').value,
+//                 questDescription: document.getElementById('questDescription').value,
+//                 questDifficulty: document.getElementById('questDifficulty').value,
+//                 questXP: parseInt(document.getElementById('questXP').value) || 1
+//             };
+// 
+//             // Validate the data
+//             if (!data.questTitle || !data.questDescription || !data.questDifficulty) {
+//                 alert("Please fill in all require fields");
+//                 return;
+//             }
+//              
+//             if(data.questXP < 100 || data.questXP > 9999) { // set xp here
+//                 alert('XP reward must be between 1 and 500');
+//                 return;
+//             }
+// 
+//             const callback = (responseStatus, responseData) => {
+//                 console.log("Create quest responseStatus:", responseStatus)
+//                 console.log("Create quest responseData:", responseData);
+// 
+//                 if (responseStatus === 201 || responseStatus === 200) {
+//                     alert(responseData.message || "Quest created successfully!");
+//                     createForm.reset(); // Create and reset the page 
+//                     loadAllQuests(token);
+//                     loadUserProfile(token);
+//                 } else {
+//                     alert(responseData.message || `Failed to create quest. Please try again`)
+//                 }
+//             }
+//             fetchMethod(currentUrl + "/api/quests", callback, "POST", data, token)
+//         })
+//     }
+// }
 
-function loadQuestCreation(token) {
-    const createForm = document.getElementById('createQuestForm');
 
-    if (createForm) {
-        createForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const data = {
-                questTitle: document.getElementById('questTitle').value,
-                questDescription: document.getElementById('questDescription').value,
-                questDifficulty: document.getElementById('questDifficulty').value,
-                questXP: parseInt(document.getElementById('questXP').value) || 1
-            };
-
-            // Validate the data
-            if (!data.questTitle || !data.questDescription || !data.questDifficulty) {
-                alert("Please fill in all require fields");
-                return;
-            }
-             
-            if(data.questXP < 100 || data.questXP > 9999) { // set xp here
-                alert('XP reward must be between 1 and 500');
-                return;
-            }
-
-            const callback = (responseStatus, responseData) => {
-                console.log("Create quest responseStatus:", responseStatus)
-                console.log("Create quest responseData:", responseData);
-
-                if (responseStatus === 201 || responseStatus === 200) {
-                    alert(responseData.message || "Quest created successfully!");
-                    createForm.reset(); // Create and reset the page 
-                    loadAllQuests(token);
-                    loadUserProfile(token);
-                } else {
-                    alert(responseData.message || `Failed to create quest. Please try again`)
-                }
-            }
-            fetchMethod(currentUrl + "/api/quests", callback, "POST", data, token)
-        })
-    }
-}
-
-
-// Accept the quest
+// function to accept the quest
 function acceptQuest(questId, token) {
     const data = {};
     const callback = (responseStatus, responseData) => {
@@ -206,7 +207,7 @@ function acceptQuest(questId, token) {
 
 
 
-// Delete the quest
+// function to delete the quest
 function deleteQuest(questId, token) {
     if (!confirm("Are you sure you want to delete this quest?")) {
         return;
@@ -227,7 +228,7 @@ function deleteQuest(questId, token) {
 }
 
 
-
+// load the quest
 function loadAllQuests(token) {
     const callback = (responseStatus, responseData) => {
         console.log("Quest responseStatus:", responseStatus);

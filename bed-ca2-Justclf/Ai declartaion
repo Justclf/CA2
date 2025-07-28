@@ -6,4 +6,7 @@ https://www.w3schools.com/jsref/jsref_tolocalestring.asp about date and time
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString about date and time
 
+https://dev.mysql.com/doc/refman/8.4/en/date-and-time-functions.html report showing date in sql
+https://www.w3schools.com/sql/func_mysql_date_format.asp report showing date in sql
+
 Look at ur database -> See the model -> controller see's if got problem, no problem res.status json it -> then reaches Endpoint -> frontend gets the data and displays it -> then dynamic frontend js
