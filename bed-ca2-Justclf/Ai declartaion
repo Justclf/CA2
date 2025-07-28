@@ -6,4 +6,4 @@ https://www.w3schools.com/jsref/jsref_tolocalestring.asp about date and time
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString about date and time
 
-Look at ur databse -> See the model -> controller see's if got problem, no problem res.status json it -> then reaches Endpoint -> frontend gets the data and displays it -> then dynamic frontend js
+Look at ur database -> See the model -> controller see's if got problem, no problem res.status json it -> then reaches Endpoint -> frontend gets the data and displays it -> then dynamic frontend js

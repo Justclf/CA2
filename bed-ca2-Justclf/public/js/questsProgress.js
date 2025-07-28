@@ -99,6 +99,7 @@ function createCurrentQuestCard(quest, token) {
 }
 
 function completeQuest(questId, token) {
+    const data = {};
     const callback = (responseStatus, responseData) => {
         console.log("Complete quest result:", responseStatus, responseData);
         
@@ -110,7 +111,5 @@ function completeQuest(questId, token) {
             alert(responseData.message || 'Failed to complete quest. Please try again');
         }
     };
-    
-    // Use SEPARATE progress endpoint for completing
-    fetchMethod(currentUrl + `/api/progress/${questId}/complete`, callback, "POST", {}, token);
+    fetchMethod(currentUrl + `/api/progress/${questId}/complete`, callback, "POST", data, token);
 }

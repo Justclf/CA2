@@ -1,4 +1,6 @@
 const pool = require('../services/db');
+const levels = require("../configs/levels.js")
+
 
 module.exports.currentQuests = (data, callback) => {
     const SQLSTATEMENT = `
@@ -27,6 +29,8 @@ module.exports.currentQuests = (data, callback) => {
     pool.query(SQLSTATEMENT, VALUES, callback)
 }
 
+
+// complete button
 module.exports.finishQuest = (data, callback) => {
     const SQLSTATEMENT_GET_GAMEUSER = `
     SELECT id
@@ -42,7 +46,6 @@ module.exports.finishQuest = (data, callback) => {
             }
 
         const gameUserId = gameuserResults[0].id;
-
 // Remove start quests
     const SQLSTATEMENT_REMOVE_START = `
         DELETE FROM QuestStart
@@ -64,10 +67,7 @@ module.exports.finishQuest = (data, callback) => {
             // give the xp to the player
             const SQLSTATEMENT_AWARD = `
             UPDATE GameUser
-            SET xp = xp + (
-                SELECT xp_reward
-                FROM Quests
-                WHERE id = ?)
+            SET xp = xp + (SELECT xp_reward FROM Quests WHERE id = ?)
             WHERE id = ?;
             `;
             const VALUES_AWARD = [data.id, gameUserId];
@@ -86,7 +86,6 @@ module.exports.finishQuest = (data, callback) => {
                     const newXp = rows[0].xp;
 
                     // calculate new level & xp to next
-                    const levels = require("../configs/levels.js")
                     let newLevel = levels[0].name;
                     for (let i = 0; i < levels.length; i++) {
                         if (newXp >= levels[i].xp) {
@@ -109,7 +108,6 @@ module.exports.finishQuest = (data, callback) => {
                         callback(null, {
                             xp: newXp, 
                             rank: newLevel, 
-
                         });
                     });
                 });

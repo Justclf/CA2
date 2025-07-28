@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem('token');
     
     if (!token) {
-        // If not logged in, hide the review form but show existing reviews
+        // if user not logged in, hide the review
         const reviewForm = document.querySelector('.review-form-container');
         if (reviewForm) {
             reviewForm.style.display = 'none';
@@ -19,9 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setupStarRating();
     }
 });
-
-
-
 
 // load all reviews
 function loadAllReviews() {

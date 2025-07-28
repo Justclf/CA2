@@ -1,4 +1,4 @@
-const model = require("../models/questsModel.js");
+const model = require("../models/questsProgressModel.js");
 const gameUserModel = require("../models/GameUsersModel.js");
 
 module.exports.GetCurrentQuests = (req, res, next) => {
@@ -31,7 +31,7 @@ module.exports.GetCurrentQuests = (req, res, next) => {
 module.exports.CompleteQuest = (req, res, next) => {
     const data = {
         user_id: res.locals.userId,
-        id: req.params.id
+        id: req.params.questId
     }
 
     const callback = (error, results) => {
