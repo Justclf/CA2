@@ -233,7 +233,6 @@ module.exports.GetUserProfile = (req, res, next) => {
 
 
 
-
 module.exports.GetCurrentQuests = (req, res, next) => {
     const userId = res.locals.userId; // From JWT token
 
