@@ -9,12 +9,13 @@ const QuestsRoutes = require('./QuestsRoutes')
 const reviewRoutes = require('./reviewRoutes')
 const questsProgressRoutes = require('./questsProgressRoutes')
 const reportRoutes = require('./reportRoutes')
-
+const pvpRoutes = require('./pvpRoutes')
 
 router.use("/quests", QuestsRoutes)
 router.use("/reviews", reviewRoutes)
 router.use("/progress", questsProgressRoutes)
 router.use("/reports", reportRoutes)
+router.use("/pvp", pvpRoutes)
 router.get("/profile", jwtMiddleware.verifyToken, questsController.GetUserProfile);
 
 

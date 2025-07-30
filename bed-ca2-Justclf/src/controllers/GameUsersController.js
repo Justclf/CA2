@@ -119,45 +119,7 @@ module.exports.UpdateGameUsers = (req, res, next) =>
 }
 
 
-// Fight other player :D
-module.exports.ChallengePlayers = (req, res, next) =>
-{
-    const data = {
-        challenger_id: Number(req.body.challenger_id),
-        opponent_id: Number(req.body.opponent_id)
-    };
 
-    if (isNaN(data.challenger_id) || isNaN(data.opponent_id))
-    {
-        res.status(400).send("Error: invalid player IDs");
-        return;
-    }
-
-    const callback = (error, result) =>
-    {
-       if (error) {
-            console.error("Error createNewuser:", error);
-            if (error.code === 'USER_NOT_FOUND') {
-                return res.status(404).json({ error: "One of the player is not found" });
-            } else {
-                return res.status(500).json(error);
-            }
-                
-        }
-        res.status(201).json({
-            challenge_id: 1,
-            challenger_id: data.challenger_id,
-            opponent_id: data.opponent_id,
-            winner_id: result.winner_id,
-            winner_rank: result.winner_rank,
-            loser_id: result.loser_id,
-            loser_rank: result.loser_rank,
-            message:  "Player " + result.winner_id + " wins!"
-        });
-    };
-
-    model.challengePlayers(data, callback);
-};
     
 
         

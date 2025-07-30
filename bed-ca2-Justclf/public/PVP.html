@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PVP Arena - Bug Hunter Guild</title>
+    <link rel="stylesheet" href="css/color.css">
+    <link rel="stylesheet" href="css/pvp.css">
+</head>
+<body class="pvp-page">
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">Bug Hunter Guild</div>
+        <nav class="nav-buttons">
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="quests.html" class="nav-btn">Quests</a>
+            <a href="questsProgress.html" class="nav-btn">Current Quests</a>
+            <a href="report.html" class="nav-btn">Report</a>
+            <a href="pvp.html" class="nav-btn">PVP</a>
+            <a href="review.html" class="nav-btn">Review</a>
+            <a href="login.html" class="nav-btn" id="loginButton">Login</a>
+            <a href="register.html" class="nav-btn" id="registerButton">Registration</a>
+            <a href="profile.html" class="nav-btn d-none" id="profileButton">Profile</a>
+            <a href="#" class="nav-btn d-none" id="logoutButton">Logout</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Player Stats Section -->
+        <div class="player-stats-section">
+            <h2 class="section-title">Your Battle Stats</h2>
+            <div class="stats-card">
+                <div class="stat-item">
+                    <span class="stat-label">Hunter:</span>
+                    <span class="stat-value" id="playerName">Loading...</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">XP:</span>
+                    <span class="stat-value" id="playerXP">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Rank:</span>
+                    <span class="stat-value" id="playerRank">E-Hunter</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Battle Arena Section -->
+        <div class="arena-section">
+            <h2 class="section-title">Battle Arena</h2>
+            <p class="section-subtitle">Challenge other hunters! Higher rank always wins.</p>
+            
+            <!-- Battle Result Display -->
+            <div id="battleResult" class="battle-result d-none">
+                <div class="result-content">
+                    <h3 id="battleTitle"></h3>
+                    <div class="battle-summary" id="battleSummary"></div>
+                    <button class="close-result-btn" onclick="closeBattleResult()">Continue Hunting</button>
+                </div>
+            </div>
+
+            <!-- Available Players -->
+            <div class="players-list-section">
+                <h3 class="subsection-title">Available Hunters</h3>
+                <div id="playersList" class="players-grid">
+                    <div class="loading-message">Loading hunters...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/getCurrentURL.js"></script>
+    <script src="js/userNavbarToggle.js"></script>
+    <script src="js/pvp.js"></script>
+</body>
+</html>

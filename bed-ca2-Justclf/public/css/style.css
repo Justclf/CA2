@@ -27,8 +27,9 @@ body {
     z-index: 1000;
     padding: 1rem 2rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; /* Changed: Move everything to left */
     align-items: center;
+    gap: 3rem; /* Added: Space between logo and nav buttons */
 }
 
 .logo {

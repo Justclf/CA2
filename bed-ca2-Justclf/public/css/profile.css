@@ -54,8 +54,9 @@
         }
 
         .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-button-hover-purple);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-button-hover-pink);
+            background: var(--gradient-button-pink);
         }
 
         .nav-btn.active {

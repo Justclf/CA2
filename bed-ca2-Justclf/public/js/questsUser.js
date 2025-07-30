@@ -14,8 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // load all quests
     loadAllQuests(token);
 
-    // // show the quest creation
-    // loadQuestCreation(token);
+    // show the quest creation
+    loadQuestCreation(token);
 });
 
 
@@ -141,49 +141,49 @@ function showNoQuests(message) {
 }
 
 
-// 
-// function loadQuestCreation(token) {
-//     const createForm = document.getElementById('createQuestForm');
-// 
-//     if (createForm) {
-//         createForm.addEventListener('submit', function(event) {
-//             event.preventDefault();
-// 
-//             const data = {
-//                 questTitle: document.getElementById('questTitle').value,
-//                 questDescription: document.getElementById('questDescription').value,
-//                 questDifficulty: document.getElementById('questDifficulty').value,
-//                 questXP: parseInt(document.getElementById('questXP').value) || 1
-//             };
-// 
-//             // Validate the data
-//             if (!data.questTitle || !data.questDescription || !data.questDifficulty) {
-//                 alert("Please fill in all require fields");
-//                 return;
-//             }
-//              
-//             if(data.questXP < 100 || data.questXP > 9999) { // set xp here
-//                 alert('XP reward must be between 1 and 500');
-//                 return;
-//             }
-// 
-//             const callback = (responseStatus, responseData) => {
-//                 console.log("Create quest responseStatus:", responseStatus)
-//                 console.log("Create quest responseData:", responseData);
-// 
-//                 if (responseStatus === 201 || responseStatus === 200) {
-//                     alert(responseData.message || "Quest created successfully!");
-//                     createForm.reset(); // Create and reset the page 
-//                     loadAllQuests(token);
-//                     loadUserProfile(token);
-//                 } else {
-//                     alert(responseData.message || `Failed to create quest. Please try again`)
-//                 }
-//             }
-//             fetchMethod(currentUrl + "/api/quests", callback, "POST", data, token)
-//         })
-//     }
-// }
+// load the quest when you create
+function loadQuestCreation(token) {
+    const createForm = document.getElementById('createQuestForm');
+
+    if (createForm) {
+        createForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const data = {
+                questTitle: document.getElementById('questTitle').value,
+                questDescription: document.getElementById('questDescription').value,
+                questDifficulty: document.getElementById('questDifficulty').value,
+                questXP: parseInt(document.getElementById('questXP').value) || 1
+            };
+
+            // Validate the data
+            if (!data.questTitle || !data.questDescription || !data.questDifficulty) {
+                alert("Please fill in all require fields");
+                return;
+            }
+             
+            if(data.questXP < 100 || data.questXP > 9999) { // set xp here
+                alert('XP reward must be between 1 and 500');
+                return;
+            }
+
+            const callback = (responseStatus, responseData) => {
+                console.log("Create quest responseStatus:", responseStatus)
+                console.log("Create quest responseData:", responseData);
+
+                if (responseStatus === 201 || responseStatus === 200) {
+                    alert(responseData.message || "Quest created successfully!");
+                    createForm.reset(); // Create and reset the page 
+                    loadAllQuests(token);
+                    loadUserProfile(token);
+                } else {
+                    alert(responseData.message || `Failed to create quest. Please try again`)
+                }
+            }
+            fetchMethod(currentUrl + "/api/quests", callback, "POST", data, token)
+        })
+    }
+}
 
 
 // function to accept the quest
