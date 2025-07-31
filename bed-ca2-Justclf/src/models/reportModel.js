@@ -16,7 +16,7 @@ module.exports.CreateReport = (data, callback) => {
     INSERT INTO report (user_id, vulnerability_id)
     VALUES (?, ?)
     `
-    const VALUES = [data.user_id, data.vulnerability_id]
+    const VALUES = [data.user_id, data.vulnerability_id, data.description]
     pool.query(SQLSTATEMENT, VALUES, callback)
 }
 
@@ -34,7 +34,7 @@ module.exports.UpdateReputation = (data, callback) => {
 // Get user's reports with vulnerability details
 module.exports.getUserReports = (data, callback) => {
     const SQLSTATEMENT = `
-    SELECT r.id, r.status, r.user_id, v.type AS vulnerability_type, v.points, 
+    SELECT r.id, r.status, r.user_id, r.description, v.type AS vulnerability_type, v.points, 
         DATE_FORMAT(NOW(), '%d %M %Y') AS created_at
     FROM report r
     JOIN vulnerability v ON r.vulnerability_id = v.id

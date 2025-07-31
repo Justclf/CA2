@@ -39,7 +39,8 @@ module.exports.submitReport = (req, res, next) => {
             // create the report
             const reportData = {
                 user_id: gameUserId,
-                vulnerability_id: vulnerabilityId
+                vulnerability_id: vulnerabilityId,
+                description: description
             };
 
             
@@ -68,7 +69,8 @@ module.exports.submitReport = (req, res, next) => {
                             report_id: reportResults.insertId,
                             vulnerability_type: vulnerability.type,
                             xp_earned: xpReward,
-                            new_xp: newXP
+                            new_xp: newXP,
+                            description: description
                         });
                     };
 

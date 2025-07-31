@@ -45,14 +45,26 @@ function setupReportForm(token) {
             event.preventDefault();
             
             const vulnerabilityId = document.getElementById('vulnerabilityType').value;
+            const description = document.getElementById('reportDescription').value;
             
             if (!vulnerabilityId) {
                 alert('Please select a vulnerability type');
                 return;
             }
+
+            if (!description) {
+                alert('Please provide a description of the vulnerability');
+                return;
+            }
+
+            if (description.length < 10) {
+                alert('Description must be at least 10 characters long');
+                return;
+            }
             
             const data = {
-                vulnerability_id: parseInt(vulnerabilityId)
+                vulnerability_id: parseInt(vulnerabilityId),
+                description: description
             };
             
             const callback = (responseStatus, responseData) => {
