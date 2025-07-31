@@ -3,7 +3,7 @@ const pool = require('../services/db');
 // get all users other than urself
 module.exports.getAvailablePlayers = (data, callback) => {
     const SQLSTATEMENT = `
-    SELECT g.id, g.username, g.user_rank
+    SELECT g.id, g.username, g.user_rank, g.XP
     FROM gameuser g
     WHERE g.id != ?
     ORDER BY g.username;
