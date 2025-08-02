@@ -24,73 +24,93 @@ body.register-page {
     top: 0;
     left: 0;
     right: 0;
-    background: var(--bg-glass);
-    backdrop-filter: blur(10px);
-    border-bottom: var(--border-purple);
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 13, 46, 0.95) 50%, rgba(45, 27, 61, 0.95) 100%);
+    backdrop-filter: blur(15px);
+    border-bottom: 2px solid var(--primary-purple);
     z-index: 1000;
-    padding: 1rem 2rem;
+    padding: 1.2rem 2.5rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 3rem;
 }
 
+/* Logo - positioned left */
 .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: var(--primary-purple);
-    text-shadow: var(--shadow-purple);
-    animation: logoGlow 2s ease-in-out infinite alternate;
+    position: absolute;
+    left: 2.5rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--primary-purple), var(--secondary-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
 }
 
-@keyframes logoGlow {
-    0% { text-shadow: var(--shadow-purple); }
-    100% { text-shadow: 0 0 30px var(--primary-purple), 0 0 40px var(--primary-purple); }
-}
-
+/* Centered Navigation */
 .nav-buttons {
     display: flex;
-    gap: 1rem;
+    gap: 0.8rem;
+    align-items: center;
+    justify-content: center;
 }
 
+/* All Navigation Buttons */
 .nav-btn {
-    background: var(--gradient-button-purple);
+    background: transparent;
     border: none;
+    outline: none;
     color: var(--text-primary);
-    padding: 0.8rem 1.5rem;
-    border-radius: 25px;
+    padding: 0.7rem 1.2rem;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 400;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
     text-decoration: none;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.nav-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, var(--glow-white), transparent);
-    transition: left 0.5s;
-}
-
-.nav-btn:hover::before {
-    left: 100%;
 }
 
 .nav-btn:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: var(--shadow-button-hover-pink);
-    background: var(--gradient-button-pink);
+    background: rgba(157, 78, 221, 0.1);
+    color: var(--primary-purple);
 }
 
 .nav-btn.active {
-    background: var(--gradient-button-pink);
-    box-shadow: var(--shadow-pink);
+    background: rgba(157, 78, 221, 0.15);
+    color: var(--primary-purple);
+}
+
+.d-none {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        position: relative;
+    }
+    
+    .logo {
+        position: static;
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .nav-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.6rem;
+        width: 100%;
+    }
+    
+    .nav-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+        min-width: 80px;
+    }
 }
 
 /* Register page container */
