@@ -7,8 +7,13 @@ module.exports.submitReport = (req, res, next) => {
         return res.status(400).json({ message: "Vulnerability ID is required" });
     }
 
+    if (!req.body.description) {
+        return res.status(400).json({ message: "Description is required" });
+    }
+
     const userId = res.locals.userId;
     const vulnerabilityId = parseInt(req.body.vulnerability_id);
+    const description = req.body.description;
 
     const callbackgetgameuser = (error, results) => {
         if (error) {

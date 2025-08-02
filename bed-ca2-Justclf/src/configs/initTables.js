@@ -64,7 +64,7 @@ bcrypt.hash('1234', saltRounds, (error, hash) => {
       user_id INT NOT NULL,
       vulnerability_id INT NOT NULL,
       description TEXT NOT NULL,
-      status BOOLEAN NOT NULL DEFAULT 0, -- 0 for Open, 1 for Closed
+      status BOOLEAN NOT NULL DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES User(id)
       );

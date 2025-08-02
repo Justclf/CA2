@@ -13,8 +13,8 @@ module.exports.GetVulnerabilityById = (data, callback) => {
 
 module.exports.CreateReport = (data, callback) => {
     const SQLSTATEMENT = `
-    INSERT INTO report (user_id, vulnerability_id)
-    VALUES (?, ?)
+    INSERT INTO report (user_id, vulnerability_id, description)
+    VALUES (?, ?, ?)
     `
     const VALUES = [data.user_id, data.vulnerability_id, data.description]
     pool.query(SQLSTATEMENT, VALUES, callback)

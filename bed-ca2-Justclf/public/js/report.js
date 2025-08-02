@@ -57,8 +57,8 @@ function setupReportForm(token) {
                 return;
             }
 
-            if (description.length < 10) {
-                alert('Description must be at least 10 characters long');
+            if (description.length < 5) {
+                alert('Description must be at least 5 characters long');
                 return;
             }
             
@@ -126,6 +126,15 @@ function displayReports(reports) {
                     <div class="report-type">${report.vulnerability_type}</div>
                     <div class="report-xp">+${report.points} XP</div>
                 </div>
+                
+                <!-- ADDED: Display the description -->
+                ${report.description ? `
+                    <div class="report-description">
+                        <span class="report-description-label">Description:</span>
+                        ${report.description}
+                    </div>
+                ` : ''}
+                
                 <div class="report-date">Submitted: ${reportDate}</div>
             </div>
         `;
