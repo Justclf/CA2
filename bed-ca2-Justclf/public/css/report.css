@@ -1,0 +1,601 @@
+/* report.html specific styles */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.report-page {
+    font-family: 'Arial', sans-serif;
+    background: var(--gradient-primary);
+    color: var(--text-primary);
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+}
+
+/* Header Styles */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 13, 46, 0.95) 50%, rgba(45, 27, 61, 0.95) 100%);
+    backdrop-filter: blur(15px);
+    border-bottom: 2px solid var(--primary-purple);
+    z-index: 1000;
+    padding: 1.2rem 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+/* Logo - positioned left */
+.logo {
+    position: absolute;
+    left: 2.5rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--primary-purple), var(--secondary-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+/* Centered Navigation */
+.nav-buttons {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    justify-content: center;
+}
+
+/* All Navigation Buttons */
+.nav-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    padding: 0.7rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.nav-btn:hover {
+    background: rgba(157, 78, 221, 0.1);
+    color: var(--primary-purple);
+}
+
+.nav-btn.active {
+    background: rgba(157, 78, 221, 0.15);
+    color: var(--primary-purple);
+}
+
+.d-none {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        position: relative;
+    }
+    
+    .logo {
+        position: static;
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .nav-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.6rem;
+        width: 100%;
+    }
+    
+    .nav-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+        min-width: 80px;
+    }
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* User Stats Section */
+.user-stats {
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: var(--border-purple);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.hunter-info {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.hunter-name,
+.hunter-xp,
+.hunter-rank {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.hunter-name span,
+.hunter-xp span,
+.hunter-rank span {
+    color: var(--primary-purple);
+    font-weight: bold;
+}
+
+/* Vulnerabilities Reference Section */
+.vulnerabilities-reference {
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: var(--border-purple);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow-intense-purple);
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    background: var(--gradient-text-shine);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleShine 3s ease-in-out infinite;
+}
+
+@keyframes titleShine {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+.vulnerabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.vuln-card {
+    background: var(--character-bg);
+    border: 2px solid var(--primary-purple);
+    border-radius: 15px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.vuln-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-intense-purple);
+    border-color: var(--secondary-pink);
+}
+
+.vuln-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--primary-purple), var(--secondary-pink));
+    border-radius: 15px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.vuln-card:hover::before {
+    opacity: 0.3;
+}
+
+.vuln-card.active {
+    border-color: var(--secondary-pink);
+    box-shadow: var(--shadow-intense-purple);
+    transform: translateY(-3px);
+}
+
+.vuln-card.active::before {
+    opacity: 0.5;
+}
+
+.vuln-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.vuln-id {
+    background: var(--gradient-button-purple);
+    color: var(--text-primary);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.vuln-points {
+    background: var(--gradient-button-pink);
+    color: var(--text-primary);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.vuln-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary-purple);
+    margin-bottom: 10px;
+}
+
+.vuln-description {
+    color: var(--text-secondary);
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+/* No vulnerabilities message */
+.no-vulnerabilities {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    padding: 40px 20px;
+    background: var(--character-bg);
+    border-radius: 15px;
+    border: 2px dashed var(--primary-purple);
+}
+
+.no-vulnerabilities p {
+    margin-bottom: 15px;
+}
+
+/* Report Container */
+.report-container {
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: var(--border-purple);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow-intense-purple);
+    margin-bottom: 30px;
+}
+
+/* Form Styles */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--primary-purple);
+    font-size: 16px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--primary-purple);
+    border-radius: 8px;
+    background: var(--character-bg);
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:disabled {
+    opacity: 0.7;
+    background: var(--bg-secondary);
+    cursor: not-allowed;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: inherit;
+    line-height: 1.6;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-purple);
+    box-shadow: var(--shadow-purple);
+    background: var(--bg-tertiary);
+}
+
+.id-note,
+.description-note {
+    display: block;
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.description-note {
+    text-align: right;
+}
+
+#charCount {
+    color: var(--primary-purple);
+    font-weight: bold;
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 18px;
+    background: var(--gradient-button-pink);
+    border: none;
+    border-radius: 30px;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--glow-white), transparent);
+    transition: left 0.5s;
+}
+
+.submit-btn:hover::before {
+    left: 100%;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-button-hover-pink);
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Reports Section */
+.reports-section {
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: var(--border-purple);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: var(--shadow-intense-purple);
+}
+
+.reports-list {
+    margin-top: 20px;
+}
+
+.loading-reports,
+.no-reports {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    padding: 40px 20px;
+}
+
+/* Report Item */
+.report-item {
+    background: var(--character-bg);
+    border: 1px solid var(--primary-purple);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.report-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(157, 78, 221, 0.4);
+    border-color: var(--secondary-pink);
+}
+
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.report-type {
+    font-weight: bold;
+    color: var(--primary-purple);
+    font-size: 1.2rem;
+}
+
+.report-xp {
+    background: var(--gradient-button-pink);
+    color: var(--text-primary);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.report-description {
+    margin: 15px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(26, 13, 46, 0.8) 100%);
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-purple);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.report-description::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 30%, rgba(157, 78, 221, 0.05) 50%, transparent 70%);
+    pointer-events: none;
+}
+
+.report-description-label {
+    font-weight: bold;
+    color: var(--primary-purple);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: block;
+    position: relative;
+    z-index: 2;
+}
+
+.report-date {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-align: right;
+}
+
+/* Background Animation */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+.bg-animation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%239d4edd" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    animation: bgMove 20s linear infinite;
+}
+
+@keyframes bgMove {
+    0% { transform: translateX(0) translateY(0); }
+    100% { transform: translateX(-10px) translateY(-10px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+        margin-top: 120px;
+    }
+    
+    .vulnerabilities-reference,
+    .report-container,
+    .reports-section {
+        padding: 20px;
+    }
+    
+    .vulnerabilities-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .hunter-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .report-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

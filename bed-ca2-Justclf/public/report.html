@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Report - Bug Hunter Guild</title>
+    <link rel="stylesheet" href="css/color.css">
+    <link rel="stylesheet" href="css/report.css">
+</head>
+<body class="report-page">
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <nav>
+                <a href="index.html">Bug Hunter Guild</a>
+            </nav>
+        </div>
+        <nav class="nav-buttons">
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="quests.html" class="nav-btn" id="questButton">Quests</a>
+            <a href="questsProgress.html" class="nav-btn" id="questProgressButton">Quest Log</a>
+            <a href="vulnerability.html" class="nav-btn" id="reportButton">Vulnerabilities</a>
+            <a href="report.html" class="nav-btn" id="report2Button">Report</a>
+            <a href="pvp.html" class="nav-btn" id="pvpButton">PVP</a>
+            <a href="review.html" class="nav-btn">Review</a>
+            <a href="login.html" class="nav-btn" id="loginButton">Login</a>
+            <a href="register.html" class="nav-btn" id="registerButton">Registration</a>
+            <a href="profile.html" class="nav-btn d-none" id="profileButton">Profile</a>
+            <a href="#" class="nav-btn d-none" id="logoutButton">Logout</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- User Stats -->
+        <div class="user-stats">
+            <div class="hunter-info">
+                <div class="hunter-name">Hunter: <span id="currentHunter">Loading...</span></div>
+                <div class="hunter-xp">XP: <span id="currentXP">0</span></div>
+                <div class="hunter-rank">Rank: <span id="currentRank">E-Hunter</span></div>
+            </div>
+        </div>
+
+        <!-- Available Vulnerabilities Reference -->
+        <div class="vulnerabilities-reference">
+            <h2 class="section-title">📋 Available Vulnerability IDs</h2>
+            <p class="section-subtitle">Reference vulnerabilities created by users that you can report</p>
+            
+            <div class="vulnerabilities-grid">
+                <!-- This will be populated dynamically by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Submit Report Section -->
+        <div class="report-container">
+            <h2 class="section-title">🎯 Submit Vulnerability Report</h2>
+            <p class="section-subtitle">Submit your findings and earn XP rewards based on vulnerability severity</p>
+
+            <form id="reportForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="vulnerabilityId">Vulnerability ID:</label>
+                        <input type="number" id="vulnerabilityId" name="vulnerabilityId" placeholder="Enter vulnerability ID" min="1" required>
+                        <small class="id-note">📝 Reference the vulnerability IDs from the list above</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="expectedReward">Expected Reward:</label>
+                        <input type="text" id="expectedReward" name="expectedReward" placeholder="Select ID first" readonly disabled>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span class="btn-text">Submit Report & Claim XP</span>
+                    <span class="btn-icon">⚡</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Recent Reports Section -->
+        <div class="reports-section">
+            <h2 class="section-title">📊 Your Recent Reports</h2>
+            <div id="reportsList" class="reports-list">
+                <div class="loading-reports">
+                    <p>Loading your reports...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/getCurrentURL.js"></script>
+    <script src="js/userNavbarToggle.js"></script>
+    <script src="js/report.js"></script>
+</body>
+</html>

@@ -10,7 +10,7 @@ const reviewRoutes = require('./reviewRoutes')
 const questsProgressRoutes = require('./questsProgressRoutes')
 const vulnerabilityRoutes = require('./vulnerabilityRoutes.js')
 const pvpRoutes = require('./pvpRoutes')
-// const report2Routes = require('./report2Routes')
+const reportRoutes = require('./reportRoutes.js')
 
 
 router.use("/quests", QuestsRoutes)
@@ -18,7 +18,7 @@ router.use("/reviews", reviewRoutes)
 router.use("/progress", questsProgressRoutes)
 router.use("/vulnerability", vulnerabilityRoutes)
 router.use("/pvp", pvpRoutes)
-// router.use("/report2", report2Routes)
+router.use("/reports", reportRoutes)
 router.get("/profile", jwtMiddleware.verifyToken, questsController.GetUserProfile);
 
 
