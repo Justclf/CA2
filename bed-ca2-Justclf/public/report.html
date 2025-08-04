@@ -45,7 +45,7 @@
 
         <!-- Available Vulnerabilities Reference -->
         <div class="vulnerabilities-reference">
-            <h2 class="section-title">📋 Available Vulnerability IDs</h2>
+            <h2 class="section-title">Available Vulnerability IDs</h2>
             <p class="section-subtitle">Reference vulnerabilities created by users that you can report</p>
             
             <div class="vulnerabilities-grid">
@@ -55,15 +55,15 @@
 
         <!-- Submit Report Section -->
         <div class="report-container">
-            <h2 class="section-title">🎯 Submit Vulnerability Report</h2>
+            <h2 class="section-title">Submit Vulnerability Report</h2>
             <p class="section-subtitle">Submit your findings and earn XP rewards based on vulnerability severity</p>
 
             <form id="reportForm">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="vulnerabilityId">Vulnerability ID:</label>
-                        <input type="number" id="vulnerabilityId" name="vulnerabilityId" placeholder="Enter vulnerability ID" min="1" required>
-                        <small class="id-note">📝 Reference the vulnerability IDs from the list above</small>
+                        <input type="number" id="vulnerabilityId" name="vulnerabilityId" placeholder="Enter vulnerability ID" readonly disabled>
+                        <small class="id-note">Reference the vulnerability IDs from the list above</small>
                     </div>
                     <div class="form-group">
                         <label for="expectedReward">Expected Reward:</label>
@@ -73,14 +73,13 @@
 
                 <button type="submit" class="submit-btn">
                     <span class="btn-text">Submit Report & Claim XP</span>
-                    <span class="btn-icon">⚡</span>
                 </button>
             </form>
         </div>
 
         <!-- Recent Reports Section -->
         <div class="reports-section">
-            <h2 class="section-title">📊 Your Recent Reports</h2>
+            <h2 class="section-title">Your Recent Reports</h2>
             <div id="reportsList" class="reports-list">
                 <div class="loading-reports">
                     <p>Loading your reports...</p>

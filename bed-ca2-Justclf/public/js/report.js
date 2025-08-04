@@ -9,12 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load user profile, available vulnerabilities, and reports
     loadUserProfile(token);
-    loadAvailableVulnerabilities(token); // Changed: Load dynamic vulnerabilities instead of hardcoded ones
+    loadAvailableVulnerabilities(token);
     loadUserReports(token);
     
     // Setup form functionality
     setupReportForm(token);
-    // Note: setupVulnerabilityCards() is now called after vulnerabilities are loaded
 });
 
 // Load user profile information
@@ -81,9 +80,12 @@ function setupReportForm(token) {
                     alert(`Report submitted successfully! You earned ${responseData.xp_earned} XP!`);
                     reportForm.reset();
                     document.getElementById('expectedReward').value = '';
+                    
+                    // Remove the reported vulnerability from the display
+                    removeReportedVulnerability(vulnerabilityId);
+                    
                     loadUserProfile(token); // Refresh user stats
                     loadUserReports(token); // Refresh reports list
-                    loadAvailableVulnerabilities(token); // Refresh vulnerability list (in case the reported one gets removed)
                 } else {
                     alert(responseData.message || 'Failed to submit report. Please try again.');
                 }
@@ -94,7 +96,29 @@ function setupReportForm(token) {
     }
 }
 
-// Load available vulnerabilities that users have created
+// Remove reported vulnerability from display
+function removeReportedVulnerability(vulnerabilityId) {
+    const vulnCard = document.querySelector(`.vuln-card[data-id="${vulnerabilityId}"]`);
+    if (vulnCard) {
+        // Add exit animation
+        vulnCard.style.transition = 'all 0.3s ease';
+        vulnCard.style.transform = 'translateX(-100%)';
+        vulnCard.style.opacity = '0';
+        
+        // Remove after animation
+        setTimeout(() => {
+            vulnCard.remove();
+            
+            // Check if any vulnerabilities are left
+            const remainingCards = document.querySelectorAll('.vuln-card');
+            if (remainingCards.length === 0) {
+                showNoVulnerabilities("All available vulnerabilities have been reported! Great work!");
+            }
+        }, 300);
+    }
+}
+
+// Load available vulnerabilities that users have created (excluding already reported ones)
 function loadAvailableVulnerabilities(token) {
     const callback = (responseStatus, responseData) => {
         console.log("Available vulnerabilities responseStatus:", responseStatus);
@@ -108,8 +132,8 @@ function loadAvailableVulnerabilities(token) {
         }
     }
     
-    // Load from the vulnerability page endpoint to get user-created vulnerabilities
-    fetchMethod(currentUrl + "/api/vulnerability", callback, "GET", null, token);
+    // Load available vulnerabilities (excluding already reported ones)
+    fetchMethod(currentUrl + "/api/reports/available", callback, "GET", null, token);
 }
 
 // Display available vulnerabilities dynamically
@@ -117,7 +141,7 @@ function displayAvailableVulnerabilities(vulnerabilities) {
     const vulnGrid = document.querySelector('.vulnerabilities-grid');
     
     if (!vulnerabilities || vulnerabilities.length === 0) {
-        showNoVulnerabilities("No vulnerabilities available yet. Go to the Vulnerabilities page to create some first!");
+        showNoVulnerabilities("No vulnerabilities available to report. You may have already reported all available vulnerabilities!");
         return;
     }
     
@@ -150,7 +174,8 @@ function showNoVulnerabilities(message) {
         </div>
     `;
 }
-// Setup vulnerability cards click functionality (called after dynamic loading)
+
+// Setup vulnerability cards click functionality
 function setupVulnerabilityCards() {
     const vulnCards = document.querySelectorAll('.vuln-card');
     const vulnIdInput = document.getElementById('vulnerabilityId');
@@ -215,7 +240,7 @@ function loadUserReports(token) {
         }
     }
     
-    fetchMethod(currentUrl + "/api/vulnerability/user", callback, "GET", null, token); // Changed to match your existing API endpoint
+    fetchMethod(currentUrl + "/api/reports/user", callback, "GET", null, token);
 }
 
 // Display user's reports

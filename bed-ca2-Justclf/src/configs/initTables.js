@@ -48,15 +48,13 @@ bcrypt.hash('1234', saltRounds, (error, hash) => {
       id INT AUTO_INCREMENT PRIMARY KEY,
       type TEXT NOT NULL,
       description TEXT NOT NULL,
-      points INT NOT NULL
+      points INT NOT NULL,
+      created_by INT DEFAULT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (created_by) REFERENCES GameUser(id)
       );
 
-      INSERT INTO Vulnerability (type, description, points)
-      VALUES
-      ("XSS", "Cross-Site Scripting (XSS) allows attackers to inject malicious scripts into web pages", 50),
-      ("SQL Injection", "SQL Injection allows attackers to manipulate a web application's database by injecting malicious SQL code through input fields", 100),
-      ("CSRF", "Cross-Site Request Forgery (CSRF) security vulnerability tricks authenticated users into performing unwanted actions on a web application.", 80),
-      ("Open Redirect", "Open Redirect occurs when a web application allows users to control the URL to which they are redirected, potentially leading to phishing attacks or malware distribution", 20);
+
 
 
       CREATE TABLE Report (
@@ -66,7 +64,8 @@ bcrypt.hash('1234', saltRounds, (error, hash) => {
       description TEXT NOT NULL,
       status BOOLEAN NOT NULL DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (user_id) REFERENCES User(id)
+      FOREIGN KEY (user_id) REFERENCES GameUser(id),
+      FOREIGN KEY (vulnerability_id) REFERENCES Vulnerability(id)
       );
 
       
