@@ -173,7 +173,7 @@ function loadQuestCreation(token) {
 
                 if (responseStatus === 201 || responseStatus === 200) {
                     alert(responseData.message || "Quest created successfully!");
-                    createForm.reset(); // Create and reset the page 
+                    createForm.reset(); // create and reset the page 
                     loadAllQuests(token);
                     loadUserProfile(token);
                 } else {

@@ -32,70 +32,62 @@ function updateProfileDisplay(userData) {
     document.getElementById('currentXP').textContent = userData.xp;
     document.getElementById('currentRank').textContent = userData.rank;
 
-    // levels
-    const levels = [
-        { name: 'E-Hunter', xp: 0 },
-        { name: 'D-Hunter', xp: 500 },
-        { name: 'C-Hunter', xp: 1000 },
-        { name: 'B-Hunter', xp: 2000 },
-        { name: 'A-Hunter', xp: 3500 },
-        { name: 'S-Hunter', xp: 5000 }
-    ];
-    
+    // FIXED: Simple rank progression with correct XP values
     const userXP = userData.xp;
     const userRank = userData.rank;
 
     let currentRankXP = 0;
-    let nextRankXP = 0;
-    let nextRankName = "";
+    let nextRankXP = 500;
+    let nextRankName = "D-Hunter";
 
+    // FIXED: Proper rank progression logic
     if (userRank === 'E-Hunter') {
         currentRankXP = 0;
         nextRankXP = 500;
         nextRankName = 'D-Hunter';
     } else if (userRank === 'D-Hunter') {
-        currentRankXP = 100;
+        currentRankXP = 500;
         nextRankXP = 1000;
         nextRankName = 'C-Hunter';
     } else if (userRank === 'C-Hunter') {
-        currentRankXP = 300;
+        currentRankXP = 1000;
         nextRankXP = 2000;
         nextRankName = 'B-Hunter';
     } else if (userRank === 'B-Hunter') {
-        currentRankXP = 600;
+        currentRankXP = 2000;
         nextRankXP = 3500;
         nextRankName = 'A-Hunter';
     } else if (userRank === 'A-Hunter') {
-        currentRankXP = 1000;
+        currentRankXP = 3500;
         nextRankXP = 5000;
         nextRankName = 'S-Hunter';
     } else {
         // S-Hunter is max level
         document.getElementById('xpProgress').textContent = 'Max Level Reached!';
         document.getElementById('progressFill').style.width = '100%';
-    }
-
-    // calculate the progress if you not max levle
-    if (userRank !== 'S-Hunter') {
-        const xpInThisLevel = userXP - currentRankXP;  // how much xp they have right now
-        const xpNeededForNext = nextRankXP - currentRankXP;  // XP they need
-        const progressPercent = (xpInThisLevel / xpNeededForNext) * 100;
+        updateAchievements(userData);
         
-        // Update the display
-        document.getElementById('xpProgress').textContent = `${xpInThisLevel} / ${xpNeededForNext} XP to ${nextRankName}`;
-        document.getElementById('progressFill').style.width = `${progressPercent}%`;
+        // Calculate quests completed
+        const questsCompleted = Math.floor((userXP - 100) / 100);
+        document.getElementById('questsCompleted').textContent = questsCompleted < 0 ? 0 : questsCompleted;
+        return;
     }
 
-    // update achievements
+    // Calculate progress to next rank
+    const xpInThisLevel = userXP - currentRankXP;
+    const xpNeededForNext = nextRankXP - currentRankXP;
+    const progressPercent = Math.min((xpInThisLevel / xpNeededForNext) * 100, 100);
+    
+    // Update the display
+    document.getElementById('xpProgress').textContent = `${xpInThisLevel} / ${xpNeededForNext} XP to ${nextRankName}`;
+    document.getElementById('progressFill').style.width = `${progressPercent}%`;
+
+    // Update achievements
     updateAchievements(userData);
 
-    // Calculate quests completed (simple math: every 100 XP gained = 1 quest done)
-    const questsCompleted = Math.floor((userXP - 100) / 100); // Ai
-    if (questsCompleted < 0) {
-        document.getElementById('questsCompleted').textContent = 0;  // If they created quests, XP might be less than 100
-    } else {
-        document.getElementById('questsCompleted').textContent = questsCompleted;
-    }
+    // Calculate quests completed
+    const questsCompleted = Math.floor((userXP - 100) / 100);
+    document.getElementById('questsCompleted').textContent = questsCompleted < 0 ? 0 : questsCompleted;
 }
 
 

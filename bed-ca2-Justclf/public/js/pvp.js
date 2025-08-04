@@ -1,4 +1,3 @@
-// PVP page functionality
 document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem('token');
     
@@ -36,7 +35,7 @@ function loadPlayerStats() {
     fetchMethod(currentUrl + "/api/pvp/stats", callback, "GET", null, token);
 }
 
-// Load available players to challenge
+// load the players to fight
 function loadAvailablePlayers() {
     const token = localStorage.getItem('token');
     
@@ -48,21 +47,15 @@ function loadAvailablePlayers() {
             displayAvailablePlayers(responseData);
         } else {
             console.error("Failed to load available players:", responseData);
-            showNoPlayers("Failed to load available hunters. Please try again.");
         }
     };
     
     fetchMethod(currentUrl + "/api/pvp/players", callback, "GET", null, token);
 }
 
-// Display available players - FIXED TO SHOW XP
+// show all playesrs
 function displayAvailablePlayers(players) {
     const playersList = document.getElementById('playersList');
-    
-    if (!players || players.length === 0) {
-        showNoPlayers("No other hunters available for battle at the moment.");
-        return;
-    }
     
     playersList.innerHTML = players.map(player => {
         return `
@@ -82,27 +75,14 @@ function displayAvailablePlayers(players) {
     }).join('');
 }
 
-// Show no players message
-function showNoPlayers(message) {
-    const playersList = document.getElementById('playersList');
-    playersList.innerHTML = `<div class="no-players"><p>${message}</p></div>`;
-}
-
-// Challenge a player
+// challenge a player
 function challengePlayer(opponentId, opponentName) {
     const token = localStorage.getItem('token');
     
     if (!confirm(`Are you sure you want to challenge ${opponentName}?`)) {
         return;
     }
-    
-    // Disable all challenge buttons during battle
-    const challengeButtons = document.querySelectorAll('.challenge-btn');
-    challengeButtons.forEach(btn => {
-        btn.disabled = true;
-        btn.textContent = 'Fighting...';
-    });
-    
+
     const data = {
         opponent_id: opponentId
     };
@@ -111,15 +91,9 @@ function challengePlayer(opponentId, opponentName) {
         console.log("Challenge responseStatus:", responseStatus);
         console.log("Challenge responseData:", responseData);
         
-        // Re-enable buttons
-        challengeButtons.forEach(btn => {
-            btn.disabled = false;
-            btn.textContent = 'Challenge Hunter';
-        });
         
         if (responseStatus === 201) {
             showBattleResult(responseData);
-            // Refresh data after battle
             setTimeout(() => {
                 loadPlayerStats();
                 loadAvailablePlayers();
@@ -132,7 +106,7 @@ function challengePlayer(opponentId, opponentName) {
     fetchMethod(currentUrl + "/api/pvp/challenge", callback, "POST", data, token);
 }
 
-// Display battle result
+// show battle result
 function showBattleResult(battleData) {
     const battleResult = document.getElementById('battleResult');
     const battleTitle = document.getElementById('battleTitle');
@@ -140,7 +114,7 @@ function showBattleResult(battleData) {
     
     const isWinner = battleData.winner.name === document.getElementById('playerName').textContent;
     
-    battleTitle.textContent = isWinner ? '🏆 VICTORY!' : '💀 DEFEAT!';
+    battleTitle.textContent = isWinner ? 'VICTORY!' : 'DEFEAT!';
     battleTitle.style.color = isWinner ? '#28a745' : '#dc3545';
     
     battleSummary.innerHTML = `
@@ -169,7 +143,7 @@ function showBattleResult(battleData) {
     battleResult.classList.remove('d-none');
 }
 
-// Close battle result modal
+// close battle result modal
 function closeBattleResult() {
     const battleResult = document.getElementById('battleResult');
     battleResult.classList.add('d-none');

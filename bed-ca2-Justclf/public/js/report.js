@@ -7,21 +7,15 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    // Load user profile, available vulnerabilities, and reports
     loadUserProfile(token);
     loadAvailableVulnerabilities(token);
     loadUserReports(token);
-    
-    // Setup form functionality
     setupReportForm(token);
 });
 
-// Load user profile information
+// load user's profile
 function loadUserProfile(token) {
     const callback = (responseStatus, responseData) => {
-        console.log("User profile responseStatus:", responseStatus);
-        console.log("User profile responseData:", responseData);
-
         if (responseStatus === 200) {
             document.getElementById("currentHunter").textContent = responseData.username;
             document.getElementById("currentXP").textContent = responseData.xp;
@@ -36,7 +30,7 @@ function loadUserProfile(token) {
     fetchMethod(currentUrl + "/api/profile", callback, "GET", null, token);
 }
 
-// Setup report form submission  
+// function to submit the report
 function setupReportForm(token) {
     const reportForm = document.getElementById('reportForm');
     
@@ -51,41 +45,28 @@ function setupReportForm(token) {
                 return;
             }
 
-            // Validate that the vulnerability ID exists in the available list
-            const vulnCard = document.querySelector(`.vuln-card[data-id="${vulnerabilityId}"]`);
-            if (!vulnCard) {
-                alert('Invalid vulnerability ID. Please select from the available vulnerabilities above.');
-                return;
-            }
-            
             const data = {
                 vulnerability_id: parseInt(vulnerabilityId)
             };
-            
-            // Disable submit button during submission
+
             const submitBtn = reportForm.querySelector('.submit-btn');
             const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<span class="btn-text">Submitting...</span><span class="btn-icon">⏳</span>';
+            submitBtn.innerHTML = '<span class="btn-text">Submitting...</span><span class="btn-icon">Loading</span>'; // make the buttons clickable
             submitBtn.disabled = true;
             
             const callback = (responseStatus, responseData) => {
-                // Re-enable submit button
-                submitBtn.innerHTML = originalText;
+                submitBtn.innerHTML = originalText; // ai
                 submitBtn.disabled = false;
                 
-                console.log("Submit report responseStatus:", responseStatus);
-                console.log("Submit report responseData:", responseData);
-                
                 if (responseStatus === 201) {
-                    alert(`Report submitted successfully! You earned ${responseData.xp_earned} XP!`);
+                    alert(`Report submitted successfully! You earned ${responseData.xp_earned}`); // defined at reportcontroller
                     reportForm.reset();
                     document.getElementById('expectedReward').value = '';
                     
-                    // Remove the reported vulnerability from the display
-                    removeReportedVulnerability(vulnerabilityId);
-                    
-                    loadUserProfile(token); // Refresh user stats
-                    loadUserReports(token); // Refresh reports list
+                    // refresh everything
+                    loadAvailableVulnerabilities(token);
+                    loadUserProfile(token);
+                    loadUserReports(token);
                 } else {
                     alert(responseData.message || 'Failed to submit report. Please try again.');
                 }
@@ -96,56 +77,34 @@ function setupReportForm(token) {
     }
 }
 
-// Remove reported vulnerability from display
-function removeReportedVulnerability(vulnerabilityId) {
-    const vulnCard = document.querySelector(`.vuln-card[data-id="${vulnerabilityId}"]`);
-    if (vulnCard) {
-        // Add exit animation
-        vulnCard.style.transition = 'all 0.3s ease';
-        vulnCard.style.transform = 'translateX(-100%)';
-        vulnCard.style.opacity = '0';
-        
-        // Remove after animation
-        setTimeout(() => {
-            vulnCard.remove();
-            
-            // Check if any vulnerabilities are left
-            const remainingCards = document.querySelectorAll('.vuln-card');
-            if (remainingCards.length === 0) {
-                showNoVulnerabilities("All available vulnerabilities have been reported! Great work!");
-            }
-        }, 300);
-    }
-}
-
-// Load available vulnerabilities that users have created (excluding already reported ones)
+// load available vulnerabilities
 function loadAvailableVulnerabilities(token) {
     const callback = (responseStatus, responseData) => {
-        console.log("Available vulnerabilities responseStatus:", responseStatus);
-        console.log("Available vulnerabilities responseData:", responseData);
-        
         if (responseStatus === 200) {
-            displayAvailableVulnerabilities(responseData);
+            if (responseData && responseData.length > 0) {
+                displayAvailableVulnerabilities(responseData);
+            } else {
+                showNoVulnerabilities();
+            }
         } else {
             console.error("Failed to load vulnerabilities:", responseData);
-            showNoVulnerabilities("No vulnerabilities available yet. Create some vulnerabilities first!");
+            showNoVulnerabilities();
         }
     }
     
-    // Load available vulnerabilities (excluding already reported ones)
     fetchMethod(currentUrl + "/api/reports/available", callback, "GET", null, token);
 }
 
-// Display available vulnerabilities dynamically
+// show all available vulnerabilities
 function displayAvailableVulnerabilities(vulnerabilities) {
     const vulnGrid = document.querySelector('.vulnerabilities-grid');
     
     if (!vulnerabilities || vulnerabilities.length === 0) {
-        showNoVulnerabilities("No vulnerabilities available to report. You may have already reported all available vulnerabilities!");
+        showNoVulnerabilities();
         return;
     }
     
-    vulnGrid.innerHTML = vulnerabilities.map(vuln => {
+    const html = vulnerabilities.map((vuln) => {
         return `
             <div class="vuln-card" data-id="${vuln.id}">
                 <div class="vuln-header">
@@ -158,30 +117,25 @@ function displayAvailableVulnerabilities(vulnerabilities) {
         `;
     }).join('');
     
-    // Re-setup click handlers for the new cards
+    vulnGrid.innerHTML = html;
     setupVulnerabilityCards();
 }
 
-// Show no vulnerabilities message
-function showNoVulnerabilities(message) {
+// Remove the vulnerabilities ai
+function showNoVulnerabilities() {
     const vulnGrid = document.querySelector('.vulnerabilities-grid');
-    vulnGrid.innerHTML = `
-        <div class="no-vulnerabilities">
-            <p>${message}</p>
-            <a href="vulnerability.html" style="color: var(--primary-purple); text-decoration: none; font-weight: bold;">
-                Go to Vulnerabilities →
-            </a>
-        </div>
-    `;
+    if (vulnGrid) {
+        vulnGrid.innerHTML = '';
+    }
 }
 
-// Setup vulnerability cards click functionality
+// setup the cards ai
 function setupVulnerabilityCards() {
     const vulnCards = document.querySelectorAll('.vuln-card');
     const vulnIdInput = document.getElementById('vulnerabilityId');
     const expectedRewardInput = document.getElementById('expectedReward');
     
-    vulnCards.forEach(card => {
+    vulnCards.forEach((card) => {
         card.addEventListener('click', function() {
             const vulnId = this.dataset.id;
             const vulnPoints = this.querySelector('.vuln-points').textContent;
@@ -226,32 +180,22 @@ function setupVulnerabilityCards() {
     });
 }
 
-// Load user's reports
+// load user's reports
 function loadUserReports(token) {
     const callback = (responseStatus, responseData) => {
-        console.log("User reports responseStatus:", responseStatus);
-        console.log("User reports responseData:", responseData);
-        
         if (responseStatus === 200) {
             displayReports(responseData);
         } else {
             console.error("Failed to load user reports:", responseData);
-            showNoReports("Failed to load your reports.");
         }
     }
     
     fetchMethod(currentUrl + "/api/reports/user", callback, "GET", null, token);
 }
 
-// Display user's reports
+// show user's reports
 function displayReports(reports) {
     const reportsList = document.getElementById('reportsList');
-    
-    if (!reports || reports.length === 0) {
-        showNoReports("No reports submitted yet. Submit your first report above!");
-        return;
-    }
-    
     reportsList.innerHTML = reports.map(report => {
         const reportDate = new Date(report.created_at).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -259,10 +203,13 @@ function displayReports(reports) {
             day: 'numeric'
         });
         
+        // show the message
+        const statusText = 'CLOSED';
+        const statusClass = 'closed';
         return `
             <div class="report-item">
                 <div class="report-header">
-                    <div class="report-type">${report.vulnerability_type}</div>
+                    <div class="report-type">${report.vulnerability_type} <span class="status-badge ${statusClass}">${statusText}</span></div>
                     <div class="report-xp">+${report.points} XP</div>
                 </div>
                 
@@ -277,10 +224,4 @@ function displayReports(reports) {
             </div>
         `;
     }).join('');
-}
-
-// Show no reports message
-function showNoReports(message) {
-    const reportsList = document.getElementById('reportsList');
-    reportsList.innerHTML = `<div class="no-reports"><p>${message}</p></div>`;
 }

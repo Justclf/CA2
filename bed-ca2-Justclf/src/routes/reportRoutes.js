@@ -3,13 +3,13 @@ const router = express.Router();
 const controller = require('../controllers/reportController');
 const jwtMiddleware = require('../middlewares/jwtMiddleware');
 
-// Get available vulnerabilities (excluding ones user has already reported)
+// show all vuln
 router.get("/available", jwtMiddleware.verifyToken, controller.getAvailableVulnerabilities);
 
-// Submit a new report
+// submit new report
 router.post("/", jwtMiddleware.verifyToken, controller.submitReport);
 
-// Get user's reports
+// show users report
 router.get("/user", jwtMiddleware.verifyToken, controller.getUserReports);
 
 module.exports = router;

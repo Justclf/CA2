@@ -3,17 +3,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem('token');
     
     if (!token) {
-        // if user not logged in, hide the review
         const reviewForm = document.querySelector('.review-form-container');
         if (reviewForm) {
             reviewForm.style.display = 'none';
         }
     }
-    
-    // load all review even when not logged in
+
     loadAllReviews();
-    
-    // Use this when giving reviews
     if (token) {
         setupReviewForm(token);
         setupStarRating();
@@ -31,7 +27,6 @@ function loadAllReviews() {
             updateReviewStats(responseData);
         } else {
             console.error("Failed to load reviews:", responseData);
-            // showNoReviews("Failed to load reviews. Please try again.");
         }
     }
     fetchMethod(currentUrl + "/api/reviews", callback, "GET", null, null);
@@ -40,12 +35,6 @@ function loadAllReviews() {
 // display reviews
 function displayReviews(reviews) {
     const reviewsList = document.getElementById('reviewsList'); // Link with the HTML thru here
-    
-    if (!reviews || reviews.length === 0) {
-        showNoReviews("No reviews yet. Be the first hunter to share your experience!");
-        return;
-    }
-    
     const token = localStorage.getItem('token');
     let currentUserId = null;
 
@@ -90,7 +79,7 @@ function displayReviews(reviews) {
     }).join('');
 }
 
-// Generate star display AI
+// Generate star display ai
 function generateStarDisplay(rating) {
     let stars = '';
     for (let i = 1; i <= 5; i++) {
@@ -103,7 +92,7 @@ function generateStarDisplay(rating) {
     return stars;
 }
 
-// Update review statistics
+// update review statistics
 function updateReviewStats(reviews) {
     const totalReviews = reviews.length;
     const avgRating = totalReviews > 0 ? // If theres more than one review, do the calculation. Else show 0.0
@@ -125,13 +114,7 @@ function updateReviewStats(reviews) {
     });
 }
 
-// // if no review 
-function showNoReviews(message) {
-    const reviewsList = document.getElementById('reviewsList');
-    reviewsList.innerHTML = `<div class="no-reviews"><p>${message}</p></div>`;
-}
-
-// Set up review form
+// set up review form
 function setupReviewForm(token) {
     const reviewForm = document.getElementById('reviewForm');
     
@@ -196,14 +179,13 @@ function setupStarRating() {
 
 
 
-// Edit review
+// edit review
 function editReview(reviewId, currentRating, currentComment) {
-    // Pre-fill form
     document.getElementById('reviewText').value = currentComment;
     setStarRating(currentRating);
     updateRatingText(currentRating);
     
-    // Change form to edit mode
+    // change form to edit mode
     const submitBtn = document.querySelector('.submit-btn');
     submitBtn.textContent = 'Update Review';
     submitBtn.onclick = function(e) {
@@ -212,7 +194,7 @@ function editReview(reviewId, currentRating, currentComment) {
     };
 }
 
-// Update review
+// the button to make it submit
 function updateReview(reviewId) {
     const token = localStorage.getItem('token');
     const rating = getSelectedRating();
@@ -249,7 +231,7 @@ function updateReview(reviewId) {
     fetchMethod(currentUrl + `/api/reviews/${reviewId}`, callback, "PUT", data, token);
 }
 
-// Delete review
+// delete review
 function deleteReview(reviewId) {
     if (!confirm('Are you sure you want to delete this review?')) {
         return;

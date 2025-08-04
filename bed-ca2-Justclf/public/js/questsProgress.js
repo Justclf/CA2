@@ -1,4 +1,3 @@
-// Enhanced questsProgress.js - Clean version without emojis and animations
 document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
 
@@ -11,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
     loadCurrentQuests(token);
 });
 
+
+// function to load the current quest
 function loadCurrentQuests(token) {
     const callback = (responseStatus, responseData) => {
         console.log("Current quests loaded:", responseStatus, responseData);
@@ -22,11 +23,10 @@ function loadCurrentQuests(token) {
             showNoQuests("Failed to load your current quests.");
         }
     }
-    
-    // Use SEPARATE progress endpoint
     fetchMethod(currentUrl + "/api/progress/current", callback, "GET", null, token);
 }
 
+// function to show the quest
 function displayCurrentQuests(quests, token) {
     const questsList = document.getElementById('currentQuestsList');
     
@@ -38,11 +38,13 @@ function displayCurrentQuests(quests, token) {
     questsList.innerHTML = quests.map(quest => createCurrentQuestCard(quest, token)).join('');
 }
 
+
 function showNoQuests(message) {
     const questsList = document.getElementById('currentQuestsList');
     questsList.innerHTML = `<div class="no-quests"><p>${message}</p></div>`;
 }
 
+// creating quest card
 function createCurrentQuestCard(quest, token) {
     const difficultyRankMap = {
         'Beginner': 'E-Rank',
