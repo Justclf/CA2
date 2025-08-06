@@ -7,29 +7,39 @@ document.addEventListener("DOMContentLoaded", function () {
   const questProgressButton = document.getElementById("questProgressButton");
   const reportButton = document.getElementById("reportButton");
   const pvpButton = document.getElementById("pvpButton");
+  const reportButton2 = document.getElementById("report2Button");
+  const indexQuest = document.getElementById("indexquest")
+  const indexStart = document.getElementById("indexstart")
+  const indexVuln = document.getElementById("indexvuln")
 
   // Check if token exists in local storage
   const token = localStorage.getItem("token");
-  if (token) {
+   if (token) {
     // Token exists, show profile button and hide login and register buttons
-    loginButton.classList.add("d-none");
-    registerButton.classList.add("d-none");
-    profileButton.classList.remove("d-none");
-    logoutButton.classList.remove("d-none");
-    questButton.classList.remove("d-none");
-    questProgressButton.classList.remove("d-none");
-    reportButton.classList.remove("d-none");
-    pvpButton.classList.remove("d-none");
+    loginButton && loginButton.classList.add("d-none");
+    registerButton && registerButton.classList.add("d-none");
+    indexStart && indexStart.classList.add("d-none");
+    profileButton && profileButton.classList.remove("d-none");
+    logoutButton && logoutButton.classList.remove("d-none");
+    questButton && questButton.classList.remove("d-none");
+    questProgressButton && questProgressButton.classList.remove("d-none");
+    reportButton && reportButton.classList.remove("d-none");
+    pvpButton && pvpButton.classList.remove("d-none");
+    reportButton2 && reportButton2.classList.remove("d-none");
+    
   } else {
     // Token does not exist, show login and register buttons and hide profile and logout buttons
-    loginButton.classList.remove("d-none");
-    registerButton.classList.remove("d-none");
-    profileButton.classList.add("d-none");
-    logoutButton.classList.add("d-none");
-    questButton.classList.add("d-none");
-    questProgressButton.classList.add("d-none");
-    reportButton.classList.add("d-none");
-    pvpButton.classList.add("d-none");
+    loginButton && loginButton.classList.remove("d-none");
+    registerButton && registerButton.classList.remove("d-none");
+    profileButton && profileButton.classList.add("d-none");
+    logoutButton && logoutButton.classList.add("d-none");
+    questButton && questButton.classList.add("d-none");
+    questProgressButton && questProgressButton.classList.add("d-none");
+    reportButton && reportButton.classList.add("d-none");
+    pvpButton && pvpButton.classList.add("d-none");
+    reportButton2 && reportButton2.classList.add("d-none");
+    indexQuest && indexQuest.classList.add("d-none");
+    indexVuln && indexVuln.classList.add("d-none");
   }
 
   logoutButton.addEventListener("click", function () {

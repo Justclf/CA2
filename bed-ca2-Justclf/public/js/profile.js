@@ -27,67 +27,64 @@ function loadUserProfile(token) {
 }
 
 function updateProfileDisplay(userData) {
-    // Change basic info
     document.getElementById('hunterName').textContent = userData.username;
     document.getElementById('currentXP').textContent = userData.xp;
     document.getElementById('currentRank').textContent = userData.rank;
 
-    // FIXED: Simple rank progression with correct XP values
     const userXP = userData.xp;
     const userRank = userData.rank;
 
     let currentRankXP = 0;
-    let nextRankXP = 500;
-    let nextRankName = "D-Hunter";
+    let nextRankXP = 0;
+    let nextRankName = "";
 
-    // FIXED: Proper rank progression logic
     if (userRank === 'E-Hunter') {
         currentRankXP = 0;
         nextRankXP = 500;
         nextRankName = 'D-Hunter';
     } else if (userRank === 'D-Hunter') {
-        currentRankXP = 500;
+        currentRankXP = 100;
         nextRankXP = 1000;
         nextRankName = 'C-Hunter';
     } else if (userRank === 'C-Hunter') {
-        currentRankXP = 1000;
+        currentRankXP = 300;
         nextRankXP = 2000;
         nextRankName = 'B-Hunter';
     } else if (userRank === 'B-Hunter') {
-        currentRankXP = 2000;
+        currentRankXP = 600;
         nextRankXP = 3500;
         nextRankName = 'A-Hunter';
     } else if (userRank === 'A-Hunter') {
-        currentRankXP = 3500;
+        currentRankXP = 1000;
         nextRankXP = 5000;
         nextRankName = 'S-Hunter';
     } else {
         // S-Hunter is max level
         document.getElementById('xpProgress').textContent = 'Max Level Reached!';
         document.getElementById('progressFill').style.width = '100%';
-        updateAchievements(userData);
-        
-        // Calculate quests completed
-        const questsCompleted = Math.floor((userXP - 100) / 100);
-        document.getElementById('questsCompleted').textContent = questsCompleted < 0 ? 0 : questsCompleted;
-        return;
     }
 
-    // Calculate progress to next rank
-    const xpInThisLevel = userXP - currentRankXP;
-    const xpNeededForNext = nextRankXP - currentRankXP;
-    const progressPercent = Math.min((xpInThisLevel / xpNeededForNext) * 100, 100);
-    
-    // Update the display
-    document.getElementById('xpProgress').textContent = `${xpInThisLevel} / ${xpNeededForNext} XP to ${nextRankName}`;
-    document.getElementById('progressFill').style.width = `${progressPercent}%`;
+    // calculate the progress if you not max levle
+    if (userRank !== 'S-Hunter') {
+        const xpInThisLevel = userXP - currentRankXP;  // how much xp they have right now
+        const xpNeededForNext = nextRankXP - currentRankXP;  // XP they need
+        const progressPercent = (xpInThisLevel / xpNeededForNext) * 100;
+        
+        // Update the display
+        document.getElementById('xpProgress').textContent = `${userXP} / ${nextRankXP} XP to ${nextRankName}`;
+        document.getElementById('progressFill').style.width = `${progressPercent}%`;
+    }
 
-    // Update achievements
+    // update achievements
     updateAchievements(userData);
 
-    // Calculate quests completed
-    const questsCompleted = Math.floor((userXP - 100) / 100);
-    document.getElementById('questsCompleted').textContent = questsCompleted < 0 ? 0 : questsCompleted;
+
+    const questsCompleted = Math.floor((userXP - 100) / 100); // Ai
+    if (questsCompleted < 0) {
+        document.getElementById('questsCompleted').textContent = 0;  // If they created quests, XP might be less than 100
+    } else {
+        document.getElementById('questsCompleted').textContent = questsCompleted;
+    }
 }
 
 
@@ -99,12 +96,6 @@ function updateAchievements(userData) {
         document.getElementById('firstQuestBadge').classList.remove('locked');
         document.getElementById('firstQuestBadge').classList.add('unlocked');
     }
-    
-    // // Unlocking quest 
-    // if (userData.xp < 100) {
-    //     document.getElementById('questCreatorBadge').classList.remove('locked');
-    //     document.getElementById('questCreatorBadge').classList.add('unlocked');
-    // }
 
     // Unlock achievement if user more than 100 XP
     if (userData.xp >= 100) {
